@@ -1,0 +1,182 @@
+===============================================================================
+===============================================================================
+TEMA 01 Introduccion_ instalacion y estructura de archivos
+**********************************************************
+
+Video 002: 002 Instalacion de Angular CLI
+
+Para instalar TypeScript:
+C:\Users\A702362>npm config set proxy http://10.89.0.72:84
+C:\Users\A702362>npm config set https-proxy http://10.89.0.72:84
+C:\Users\A702362>npm install -g typescript
+
+Fuente: https://jjasonclark.com/how-to-setup-node-behind-web-proxy/
+
+===============================================================================
+Video 003: 003 Arranque de Aplicacion y Estructura de Archivos
+
+Arrancar el servidor (en consola):
+ng serve
+
+Parar el servidor (en consola):
+Ctrl+C
+
+Ver el proyecto en navegador: 
+localhost:4200
+-------------------------------------
+Arrancar el servidor en otro puerto (en consola):
+ng serve --port 3000
+
+Parar el servidor (en consola):
+Ctrl+C
+
+Ver el proyecto en navegador: 
+localhost:3000
+-------------------------------------
+ESTRUCTURA DE ARCHIVOS:
+** Fichero index.html
+Angular está pensado para hacer aplicaciones en las que el cliente va a ser el navegdor web, por lo tanto, va a tener un archivo index.html en el que se va a renderizar la app (con la etiqueta <app-root></app-root>).
+
+** Fichero favicon.ico
+Icono de la página web.
+
+** Fichero styles.css
+Estilos css globales para toda la aplicación.
+
+** Fichero package.json
+Dependencias, paquetes o librerías de angular que vamos a utilizar en la aplicación y que se instalan en la carpeta node-modules. 
+
+** Directorio src
+Donde se va a encontrar los archivos con el código.
+
+** Directorio assets
+Los archivos estáticos, especialmente las imágenes.
+
+** Directorio app
+Los módulos y componentes de la aplicación. Como está modularizada la aplicación. CLI automáticamente crea unos módulos al inicio. 
+
+===============================================================================
+Video 004: 004 Modulos y Componentes en Angular
+
+COMPONENTE: en el fichero typeScript (nombre.component.ts) es donde se define la lógica del componente. Tiene 3 bloques de código: 
+** Importaciones: 
+Importa paquetes/clases de Angular para hacer la aplicación lo más ligera posible. 
+** Decorador: 
+@Component: tiene un objeto con 3 metadatos: selector (el componente se va a renderizar en la etiqueta que define 'app-root'), templateUrl (donde está la plantilla html) y styleUrls (donde está la hoja u hojas con los estilos de este componente concreto).
+** Exportaciones: 
+Exporta la clase del componente (ej. nombreComponent) y en la clase reside la lógica del componente.
+
+MÓDULO:
+** Importaciones: importa paquetes/clases de Angular y también importa el componente.
+** Decorador: 
+@NgModule: tiene un objeto con 3 metadatos: declarations (declaraciones de las clases de los componentes que vamos a utilizar), imports (importa otros módulos) y providers (servicios para utilizarlos en todos los componentes).
+-Si es el módulo raíz, el decorador @NgModule tiene otro metadato que es bootstrap, que indica cuál es el componente con el que se va a inicializar el módulo. 
+
+Todos los módulos tienen que tener al menos un componente.
+** Exportaciones: 
+Exporta la clase del módulo (ej. nombreModule).
+
+El módulo y el componente llegan a index.html porque desde el módulo exportamos la clase del componente, y en el archivo main.ts definimos con  'platformBrowserDynamic().bootstrapModule(nombreModule)' que el módulo va a ser el módulo raíz de la aplicación. 
+
+===============================================================================
+Video 006: 006 Creacion de Componentes
+Creación de un componente a mano.
+
+===============================================================================
+Video 007: 007 Nuevo Componente con Angular CLI
+
+Antes de generar el componente, paramos el servidor desde consola. 
+
+Para generar el componente: 
+ng generate component nombrecomponente
+
+Para generar el componente sin archivo spec para los test:
+ng generate component copyright --spec false
+
+===============================================================================
+Video 008: 008 Componentes Anidados
+
+Para cuando tenemos pocas líneas de código en un componente, podemos hacer una eliminación de ese archivo y poner el código HTML directamente en un metadato del decorador del componente en el fichero typeScript. Cambiamos el metadato "templateUrl: ''" por el metadato "template: `<código HTML>`" (con comillas inclinadas). 
+
+También, podemos anidar componentes introduciendo unos dentro de otros. Se realiza al meter la etiqueta del componente en el metadato "template: `<etiqueta del componente inferior>`" del componente de un nivel superior.
+
+===============================================================================
+===============================================================================
+TEMA 02 Data Binding
+********************
+
+Video 009:
+
+===============================================================================
+Video 010:
+
+===============================================================================
+Video 011:
+
+===============================================================================
+Video 012:
+
+===============================================================================
+Video 013:
+
+===============================================================================
+Video 014:
+
+
+===============================================================================
+===============================================================================
+TEMA 03 Directivas
+******************
+
+===============================================================================
+Video 015:
+
+===============================================================================
+Video 016:
+
+===============================================================================
+Video 017:
+
+===============================================================================
+Video 018:
+
+===============================================================================
+Video 019:
+
+===============================================================================
+Video 020:
+
+===============================================================================
+Video 021:
+
+===============================================================================
+Video 022:
+
+===============================================================================
+Video 023:
+
+===============================================================================
+Video 024:
+
+===============================================================================
+Video 025:
+
+===============================================================================
+Video 026:
+
+
+
+===============================================================================
+===============================================================================
+TEMA 
+****
+
+
+===============================================================================
+
+
+
+===============================================================================
+===============================================================================
+
+
