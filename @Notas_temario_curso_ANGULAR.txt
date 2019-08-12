@@ -58,6 +58,8 @@ Los módulos y componentes de la aplicación. Como está modularizada la aplicación
 ===============================================================================
 Video 004: 004 Modulos y Componentes en Angular
 
+Todos los módulos tienen que tener al menos un componente.
+
 COMPONENTE: en el fichero typeScript (nombre.component.ts) es donde se define la lógica del componente. Tiene 3 bloques de código: 
 ** Importaciones: 
 Importa paquetes/clases de Angular para hacer la aplicación lo más ligera posible. 
@@ -71,8 +73,6 @@ MÓDULO:
 ** Decorador: 
 @NgModule: tiene un objeto con 3 metadatos: declarations (declaraciones de las clases de los componentes que vamos a utilizar), imports (importa otros módulos) y providers (servicios para utilizarlos en todos los componentes).
 -Si es el módulo raíz, el decorador @NgModule tiene otro metadato que es bootstrap, que indica cuál es el componente con el que se va a inicializar el módulo. 
-
-Todos los módulos tienen que tener al menos un componente.
 ** Exportaciones: 
 Exporta la clase del módulo (ej. nombreModule).
 
@@ -105,23 +105,66 @@ También, podemos anidar componentes introduciendo unos dentro de otros. Se reali
 TEMA 02 Data Binding
 ********************
 
-Video 009:
+Video 009: 009 Data Binding_ Introduccion
+
+Data Binding: (unión de datos) en Angular, en los componentes unimos datos entre la plantilla html y la clase del componente que está en el archivo typeScript. 
+
+Hay varias formas:
+** One Way Binding: en un sentido, desde la fuente de datos (archivo typeScript) a la vista HTML. Hay 2 fórmulas: Interpolación y Property Binding. 
+** One Way Binding: en sentido contrario, desde la vista HTML a la fuente de datos. Tenemos la fórmula: Event Binding.
+** Two Way Binding: en ambos sentidos, de la fuente de datos () a la vista HTML y viceversa. Tenemos la fórmula: Two Way Binding.
 
 ===============================================================================
-Video 010:
+Video 010: 010 Interpolacion
+
+Usa la sintaxis "Mustache" de dobles llaves para presentar, de la clase del componente a la plantilla HTML, el valor de una propiedad, el valor de un objeto o una expresión JavaScript. 
+
+1º: creación de una clase constructora de un objeto en angular: a través de un archivo nombre.modelo.ts, que contiene la exportación de la clase, la definición de las propiedades publicas de la clase y el constructor del objeto. Los archivos de clases se crean dentro de la carpeta modelos en la ruta de la ruta src/nombreaplicacion/modelos. 
+
+2º: una vez creado el objeto, vamos a crear un componente:
+ng g c nombrecomponente --spec false
+(g=generate c=componente)
+
+3º: en el componente, en el fichero typeScript, importamos el objeto y en la clase creamos el objeto. 
+
+4º: en la plantilla HTML del componente metemos un código HTML en el que usamos la interpolación poniendo las propiedades del objeto dentro de las dobles llaves y con la notación del punto nombreobjeto.propiedad)
 
 ===============================================================================
-Video 011:
+Video 011: 011 Interpolacion con Metodos
+
+Utilizar la interpolación para pasar un metodo de la clase del componente a la plantilla del componente.
+
+1º: una vez creado el objeto, vamos a crear un componente:
+ng g c nombrecomponente --spec false
+(g=generate c=componente)
+
+2º: en la clase del componente creamos una propiedad y la inicializamos. Luego creamos un método metodo(), por ejemplo que devuelva la propiedad creada.
+
+3º: en la plantilla HTML del componente metemos un código HTML en el que usamos la interpolación llamando al método dentro de las dobles llaves {{ metodo() }}.
 
 ===============================================================================
-Video 012:
+Video 012: 012 Property Binding
+
+De la clase del componente a la plantilla. Se aprovecha cualquier atributo que tenga un elemento HTML para asociarlo con una expresión que provenga del componente. Se usan los corchetes en el atributo de HTML y su valor se obtiene del fichero typeScript (tanto de una declaración como de un método).
 
 ===============================================================================
-Video 013:
+Video 013: 013 Event Binding
+
+Manda datos de la plantilla HTML a la clase del componente aprovechando los eventos HTML5. 
+
+Se pone el evento a usar y se iguala a un método que se va a declarar en el componente. 
 
 ===============================================================================
-Video 014:
+Video 014: 014 Two Way Binding
 
+Se pasan los datos en ambos sentidos. 
+
+1º: en la plantilla HTML se usa la sintaxix "Banana box" en las propiedades de un elemento HTML [(directiva)]="propiedaddelaclase".
+
+2º: en la clase del componente se define la propiedad y la directiva es la que se encarga de almacenar la información y pasarla de la clase de la propiedad a la plantilla y viceversa.
+
+3º: hay que fijarse en el módulo nombre.module.ts para comprobar si se ha importado FormsModule:
+import { FormsModule } from '@angular/forms';
 
 ===============================================================================
 ===============================================================================
@@ -129,40 +172,40 @@ TEMA 03 Directivas
 ******************
 
 ===============================================================================
-Video 015:
+Video 015: 015 Directivas_ Introduccion
 
 ===============================================================================
-Video 016:
+Video 016: 016 ngIf
 
 ===============================================================================
-Video 017:
+Video 017: 017 ngIf + else
 
 ===============================================================================
-Video 018:
+Video 018: 018 ngIf + else con metodos
 
 ===============================================================================
-Video 019:
+Video 019: 019 ngStyle
 
 ===============================================================================
-Video 020:
+Video 020: 020 ngClass
 
 ===============================================================================
-Video 021:
+Video 021: 021 ngFor
 
 ===============================================================================
-Video 022:
+Video 022: 022 ngFor con objetos
 
 ===============================================================================
-Video 023:
+Video 023: 023 ngSwitch
 
 ===============================================================================
-Video 024:
+Video 024: 024 Creacion de Directivas Propias
 
 ===============================================================================
-Video 025:
+Video 025: 025 Datos entre Componentes_ @Input
 
 ===============================================================================
-Video 026:
+Video 026: 026 Datos entre Componentes_ @Output
 
 
 
@@ -171,8 +214,26 @@ Video 026:
 TEMA 
 ****
 
+Video 027: 
 
 ===============================================================================
+Video 026: 
+
+===============================================================================
+Video 027: 
+
+===============================================================================
+Video 028: 
+
+===============================================================================
+Video 029: 
+
+===============================================================================
+Video 030: 
+
+===============================================================================
+Video 031: 
+
 
 
 
