@@ -1,0 +1,23 @@
+<h5>Ejemplo del Pipe Date</h5>
+<p>Madrid, {{ hoy | date: 'd/M/y H:m' }}</p>
+<p>Madrid, {{ hoy | date: 'd-M-y' }} a las {{ hoy | date: 'H:m Z' }}</p>
+<hr>
+<h5>Ejemplo de los Pipes Uppercase y Lowercase</h5>
+<p> {{ ciudad | uppercase }}, {{ hoy | date: 'd-M-y' }} a las {{ hoy | date: 'H:m Z' }}</p>
+<p> {{ ciudad | lowercase }}, {{ hoy | date: 'd-M-y' }} a las {{ hoy | date: 'H:m Z' }}</p>
+<hr>
+<h5>Ejemplo del Pipe Decimal</h5>
+<p>El resultado es {{ resultado | number: '3.2-2' }}</p>
+<p>El resultado 2 es {{ resultado2 | number: '3.2-2' }}</p>
+<hr>
+<h5>Ejemplo del Pipe Currency</h5>
+<p>La cotización actual del dólar es de {{ dolareuro | currency: 'EUR': true }}</p>
+<p>El cambio del dólar es de {{ dolareuro | currency: 'EUR': false }}</p>
+<hr>
+<h5>Ejemplo del Pipe i18nSelect</h5>
+<p>{{ sexo | i18nSelect: encabezamiento }} {{ nombre }}</p>
+<p>{{ sexo2 | i18nSelect: encabezamiento }} {{ nombre2 }}</p>
+<hr>
+<h5>Ejemplo de creación de Pipes propios</h5>
+<p>La cotización actual del dólar es de {{ dolareuro | euro }}</p>
+<hr>

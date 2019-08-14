@@ -4,6 +4,7 @@ import {Component} from '@angular/core';
   selector: 'app-fechaactual',
   template: `
   <p>Madrid, {{ hoy | date: 'd/M/y H:m' }}</p>
+  <h5>Ejemplo de anidamiento de componentes</h5>
   <app-copyright></app-copyright>
   `,
   styleUrls: ['./fechaactual.component.css']
@@ -11,10 +12,11 @@ import {Component} from '@angular/core';
 
 export class FechaactualComponent {
   hoy = new Date();
+
 }
 
 
-/* CÓDIGO ANTES DE HACER LAS MODIFICACIONES Y DE ELEIMINAR EL ARCHIVO
+/* CÓDIGO ANTES DE HACER LAS MODIFICACIONES Y DE ELIMINAR EL ARCHIVO
     fechaactual.component.html */
 /*
 import {Component} from '@angular/core';
