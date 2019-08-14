@@ -3,6 +3,7 @@
 TEMA 01 Introduccion_ instalacion y estructura de archivos
 **********************************************************
 
+===============================================================================
 Video 002: 002 Instalacion de Angular CLI
 
 Para instalar TypeScript:
@@ -69,7 +70,8 @@ Importa paquetes/clases de Angular para hacer la aplicación lo más ligera posibl
 Exporta la clase del componente (ej. nombreComponent) y en la clase reside la lógica del componente.
 
 MÓDULO:
-** Importaciones: importa paquetes/clases de Angular y también importa el componente.
+** Importaciones: 
+Importa paquetes/clases de Angular y también importa el componente.
 ** Decorador: 
 @NgModule: tiene un objeto con 3 metadatos: declarations (declaraciones de las clases de los componentes que vamos a utilizar), imports (importa otros módulos) y providers (servicios para utilizarlos en todos los componentes).
 -Si es el módulo raíz, el decorador @NgModule tiene otro metadato que es bootstrap, que indica cuál es el componente con el que se va a inicializar el módulo. 
@@ -105,6 +107,7 @@ También, podemos anidar componentes introduciendo unos dentro de otros. Se reali
 TEMA 02 Data Binding
 ********************
 
+===============================================================================
 Video 009: 009 Data Binding_ Introduccion
 
 Data Binding: (unión de datos) en Angular, en los componentes unimos datos entre la plantilla html y la clase del componente que está en el archivo typeScript. 
@@ -174,70 +177,368 @@ TEMA 03 Directivas
 ===============================================================================
 Video 015: 015 Directivas_ Introduccion
 
+Las directivas son clases Angular con código para crear, formatear e interaccionar con los elementos HMTL en el DOM de las páginas web. 
+
+Hay 3 tipos de directivas:
+** Componentes: 
+Normalmente no nos referimos a los componentes como directivas.
+
+** Estructurales: 
+Son las que alteran el layout o presentación del elemento HTML en el que las introducimos. Se preceden siempre de * (asterisco).
+  <elementoHTML *DIRECTIVA="EXPRESION"></elementoHTML>
+
+** De atributos: 
+No modifican el layout. Funcionan como un atributo HTML. Van entre corchetes.
+  <elementoHTML [DIRECTIVA]="{EXPRESION}"></elementoHTML>
+
+Podemos crear nuestras propias directivas.
+
 ===============================================================================
 Video 016: 016 ngIf
+
+Es de tipo estructural (modifica el DOM).
+
+ngIf: se mostrará el elemento HTML donde la hemos puesto si se cumple la expresión que tiene a continuación.
+
+  <elementoHTML propiedades="" *ngIf="expresion1"></elementoHTML>
 
 ===============================================================================
 Video 017: 017 ngIf + else
 
+Es de tipo estructural (modifica el DOM).
+
+ngIf + else: se mostrará el elemento HTML donde la hemos puesto si se cumple la expresión que tiene a continuación el if. Después de la expresión que queremos que se cumpla con ngIg, se pone "; else" y una id. Esa id es una id local de un etiqueta de Angular llamada ng-template. Se define esa etiqueta <ng-template #nombredeidlocal> a continuación del elemento HTML que lleva la directiva y dentro del código de la etiqueda se va a mostrar con el else de la directiva ngIf.  
+  <elementoHTML propiedades="" *ngIf="expresion1; else nombredeidlocal">          
+  </elementoHTML>
+  <ng-template #nombredeidlocal>
+    <elementoHTML propiedades=""></elementoHTML>
+  </ng-template>
+
 ===============================================================================
 Video 018: 018 ngIf + else con metodos
+
+Es de tipo estructural (modifica el DOM).
+
+ngIf + else con métodos: se mostrará el elemento HTML donde la hemos puesto si se cumple la expresión que tiene a continuación el if. Después de la expresión que queremos que se cumpla con ngIg, se pone "; else" y una id. Esa id es una id local de un etiqueta de Angular llamada ng-template. Se define esa etiqueta <ng-template #nombredeidlocal> a continuación del elemento HTML que lleva la directiva y dentro del código de la etiqueda se va a mostrar con el else de la directiva ngIf.  
+
+La expresión de los condicionales puede ser la llamada a un método que se definirá en el fichero typeScript del componente.
 
 ===============================================================================
 Video 019: 019 ngStyle
 
+Es de atributo (no modifica el layout del DOM).
+
+ngStyle: determina el estilo del elemento HTML en función de la expresión que pongamos dentro entre llaves. 
+
+  <elementoHTML [ngStyle]="{EXPRESION}"></elementoHTML>
+
+  <elementoHTML [ngStyle]="{propiedadcss: metodo()}"></elementoHTML>
 ===============================================================================
 Video 020: 020 ngClass
+
+Es de atributo (no modifica el layout del DOM).
+
+ngClass: actúa dinámicamente en las clases de los elementos HTML. Aplica la clase  css que indica entre las llaves cuando la expresión se cumpla. 
+
+  <elementoHTML [ngClass]="{ nombreclasecss: EXPRESION }"></elementoHTML>
 
 ===============================================================================
 Video 021: 021 ngFor
 
+Es de tipo estructural (modifica el DOM).
+
+ngFor: para iterar arrays, etc. y mostrar tantos elementos HTML como iteraciones se realicen.
+
+  <elementoHTML *ngFor="let variablelocal of array">{{ variablelocal }}          </elementoHTML>
+
 ===============================================================================
 Video 022: 022 ngFor con objetos
+
+Es de tipo estructural (modifica el DOM).
+
+ngFor con objetos: para iterar objetos. Los objetos se declaran y definen en el fichero typeScript. Por ejemplo, objetos procedentes de una clase que se tenga en el proyecto y que se pueden meter en un array. En la plantilla HTML, se itera el array y se accede a las propiedades de los objetos mediante la notación del punto () 
+  <elementoHTML>{{ variablelocal.propiedad }}</elementoHTML>
 
 ===============================================================================
 Video 023: 023 ngSwitch
 
+Es de atributo (no modifica el layout del DOM).
+
+ngSwitch: asignamos la directiva a una propiedad o variable y dependiendo del valor que ésta tenga, realizará una expresión u otra que se le indique. Por ejemplo, aplicar una clase de CSS. Por cada valor o condición, se crea un elemento HTML asociado a la expresión.
+
+Ejemplo: 
+  <li *ngSwitchCase="'valor'" class="clase1">
+    <h4>{{ objeto.propiedad }} | {{ objeto.propiedad }}</h4>
+  </li>
+  <li *ngSwitchCase="'valor'" class="clase2">
+    <h4>{{ objeto.propiedad }} | {{ objeto.propiedad }}</h4>
+  </li>
+
 ===============================================================================
 Video 024: 024 Creacion de Directivas Propias
+
+Para crear la directiva se puede utilizar la herramienta de modo de comando de CLI:
+ng generate directive nombredirectiva
+
+Para aplicar la directiva:
+En la plantilla HTML del componente, en cada elemento HTML en el que se quiera aplicar la directiva, se pone el nombre de la misma que se obtiene en el fichero nombre.directive.ts en el metadato "selector" del decorador @Directive.
+
+La directiva creada automáticamente (y en nombre.module.ts se importa y se declara automáticamente) tiene:
+** Importaciones:
+Se importa la clase Directive del core de Angular. 
+** Decorador:
+@Directive: indica el nombre que va a tener la directiva para luego poder implementarla en los componentes.
+** Exportaciones: 
+Exporta la clase donde va el código que va a realizar la directiva. 
+
+Las directivas propias permiten implementar otras clases y decoradores que proporciona Angular. Estas clases se han de importar en la directiva y se implementan como decoradores (con @) en la clase de la directiva. 
+  @ClaseImportada(EXPRESION) 
+
+  Ejemplos:
+  @HostBinding('class.clasecss') private propiedad: tipo;
+
+  @HostListener('evento') metodo() {
+    //Código del método
+  }
+
+Si estamos aplicando una clase CSS, como la idea es que se pueda usar en toda la aplicación, se incluirá en el fichero src/styles.css
 
 ===============================================================================
 Video 025: 025 Datos entre Componentes_ @Input
 
+Para pasar PROPIEDADES entre componentes.
+
+Si queremos que una propiedad de una clase en un componente hijo reciba el valor de otro componente padre:
+
+1º: en el componente hijo, en el fichero typeScript se importa la clase Input del core de Angular y en la clase del componente en la declaración de la propiedad se usa el decorador @Input(). En la plantilla HTML se hace referencia por interpolación a esa propiedad. 
+
+En hijo.component.ts:
+  export class HijoComponent implements OnInit {
+    @Input() propiedadHijo: tipo;
+  }
+
+En hijo.component.html:
+  <elementoHTML>{{ propiedadHijo }}</elementoHTML>
+
+2º: en el componente padre, en el fichero typeScript se declara la propiedad cuyo valor se va a pasar al componente hijo. En la plantilla HTML, se incorpora la etiqueta que anida el componente hijo <app-hijo> y en esa etiqueta se pone el nombre de la propiedad en el hijo entre corchetes asociado al nombre de la propiedad del componente padre.
+
+En padre.component.ts:
+  export class PadreComponent implements OnInit {
+    propiedadPadre: tipo = 'Valor que se va a inyectar del padre al hijo';
+  }
+
+En padre.component.html:
+  <elementoHTML class="padre">
+      <app-hijo [propiedadHijo]="propiedadPadre"></app-hijo>
+  </elementoHTML>
+-------------------------------------------------------------------------------
+En el caso de un array:
+
+En Angular tiene bastante utilidad cuando queremos de un array disponer de un componente generalista donde estén todos los elementos que sería el padre y de un componente hijo donde se tendrían los detalles. 
+
+En hijo.component.ts (no hay cambios):
+  export class HijoComponent implements OnInit {
+    @Input() propiedadHijo: tipo;
+  }
+
+En hijo.component.html (no hay cambios):
+  <elementoHTML>{{ propiedadHijo }}</elementoHTML>
+
+En padre.component.ts:
+  export class PadreComponent implements OnInit {
+    arrayEnPadre: tipo[] = ['valor 1', 'valor 2', 'valor 3'];
+  }
+
+En padre.component.html:
+  <elementoHTML class="padre">
+    <app-hijo *ngFor="let variablelocal of arrayEnPadre" 	[propiedadHijo]="variablelocal"></app-hijo>
+  </elementoHTML>
+
 ===============================================================================
 Video 026: 026 Datos entre Componentes_ @Output
 
+Para pasar MÉTODOS entre componentes.
+
+Si queremos pasar el valor de una propiedad de un componente hijo mdiante métodos a una propiedad del componente padre:
+
+1º: en el componente hijo, en el fichero typeScript se importa la clase Output del core de Angular (y otras clases que se necesiten como EventEmitter) y en la clase del componente en la declaración de la propiedad se usa el decorador @Output(). En la plantilla HTML se hace al método. 
+
+En hijo.component.ts:
+  export class HijoComponent implements OnInit {
+    @Output() propiedadHijo = new EventEmitter();
+
+    metodoHijo() {
+      // Código donde se hace referencia a la propiedadHijo
+      // En la propiedadHijo se emite lo que hya en el código
+      propiedadHijo.emit(codigo);
+    }
+  }
+o 
+  export class HijoComponent implements OnInit {
+    @Output() propiedadHijo: tipo;
+    
+    metodoHijo() {
+      // Código donde se hace referencia a la propiedadHijo
+      // En la propiedadHijo se emite lo que hya en el códigog
+      propiedadHijo.emit(codigo);
+    }
+  }
+
+En hijo.component.html:
+  <elementoHTML (evento)="metodoHijo()"></elementoHTML>
+
+2º: en el componente padre, en el fichero typeScript se define el método del padre y recoge el evento (por ejemplo, dentro de una propiedadPadre). En la plantilla HTML, se incorpora la etiqueta que anida el componente hijo <app-hijo> y en esa etiqueta se pone el nombre de la propiedad en el hijo entre paréntésis asociado al nombre del método del componente padre y fuera de la etiqueta del hijo, se pone un elemento HTML que recoja la propiedad en el padre.
+
+En padre.component.ts:
+  export class PadreComponent implements OnInit {
+    propiedadPadre: tipo;
+
+    metodoPadre(event) {
+      propiedadPadre = event;
+    }
+  }
+
+En padre.component.html:
+  <elementoHTML class="padre">
+      <app-hijo (propiedadHijo)="metodoPadre()"></app-hijo>
+  </elementoHTML>
+
+En la plantilla HTML, cuando un evento tiene varios métodos, éstos se separan por punto y coma:
+  <elementoHTML (evento)="metodo1(); metodo2()"></elementoHTML>
+
+En la plantilla HTML, cuando un evento tiene un método que tiene que recibir el evento como parámetro se escribe entre el paréntesis (metodo($event))
+  <elementoHTML (evento)="metodo($event)"></elementoHTML>
+
+===============================================================================
+===============================================================================
+TEMA 04 Pipes
+*************
+
+===============================================================================
+Video 027: 027 Pipe Date
+
+
+
+
+
+===============================================================================
+Video 028: 028 Pipe Uppercase y Lowercase
+
+
+
+
+===============================================================================
+Video 029: 029 Pipe Decimal
+
+
+
+
+===============================================================================
+Video 030: 030 Pipe Currency
+
+
+
+
+===============================================================================
+Video 031: 031 Pipe i18nSelect
+
+
+
+
+===============================================================================
+Video 032: 032 Creacion de Pipes Propios
+
+
+
 
 
 ===============================================================================
 ===============================================================================
-TEMA 
-****
-
-Video 027: 
+TEMA 05 Servicios
+*****************
 
 ===============================================================================
-Video 026: 
+Video 033:
+
+
+
 
 ===============================================================================
-Video 027: 
+Video 034: 
 
-===============================================================================
-Video 028: 
-
-===============================================================================
-Video 029: 
-
-===============================================================================
-Video 030: 
-
-===============================================================================
-Video 031: 
 
 
 
 
 ===============================================================================
 ===============================================================================
+TEMA 06 Routing
+***************
+
+===============================================================================
+Video 035:
+
+
+
+
+===============================================================================
+Video 036: 
+
+
+
+
+===============================================================================
+===============================================================================
+TEMA 07 Formularios
+*******************
+
+===============================================================================
+Video 037:
+
+===============================================================================
+Video 038: 
+
+===============================================================================
+Video 039:
+
+===============================================================================
+Video 040: 
+
+===============================================================================
+Video 041:
+
+===============================================================================
+Video 042:
+
+===============================================================================
+Video 043:
+
+===============================================================================
+Video 044:
+
+===============================================================================
+Video 045:
+
+===============================================================================
+===============================================================================
+TEMA 08 HTTP_ Base de datos en Firebase
+***************************************
+
+===============================================================================
+Video 046:
+
+===============================================================================
+
+
+
+
+
+
+
+
+
+
+
+
 
 

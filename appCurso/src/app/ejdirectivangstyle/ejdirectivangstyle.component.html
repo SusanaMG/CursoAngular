@@ -1,0 +1,7 @@
+<div class="container">
+  <input type="number" class="form-control" [(ngModel)]="puntuacion">
+  <hr>
+  <h4 style="display: inline-block">Puntuación obtenida:&nbsp;</h4>
+  <h4 style="display: inline-block"
+      [ngStyle]="{color: setColor()}">{{ puntuacion }}</h4>
+</div>

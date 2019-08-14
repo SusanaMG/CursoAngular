@@ -1,0 +1,28 @@
+<!-- Paso de datos con @Input -->
+<!-- Para el caso de pasar el valor sin array -->
+<!--
+<h2>Componente padre</h2>
+<div class="padre">
+    <app-hijo [aviso]="valorPadre"></app-hijo>
+</div>
+-->
+
+<!-- Paso de datos con @Input -->
+<!-- Para el caso de pasar el valor con array -->
+<!--
+<h2>Componente padre</h2>
+<h3>Paso de valores de un array</h3>
+<div class="padre">
+    <app-hijo *ngFor="let avisop of avisos" [aviso]="avisop"></app-hijo>
+</div>
+-->
+
+<!-- Paso de datos con @Output -->
+<h2>Componente padre</h2>
+<h3>Paso de valores de un array y paso de métodos</h3>
+<div class="padre">
+    <app-hijo *ngFor="let avisop of avisos" [aviso]="avisop"
+              (mensajeMarcado)="mostrarMensaje($event)"></app-hijo>
+    <h3 class="text-center">{{ texto }}</h3>
+</div>
+

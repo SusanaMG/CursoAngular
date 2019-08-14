@@ -1,0 +1,19 @@
+<!-- Paso de datos con @Input -->
+<!--
+<h3>Componente hijo</h3>
+<div class="hijo">
+  <h4>{{ aviso }}</h4>
+</div>
+-->
+
+<!-- Paso de datos con @Output -->
+<!--<h3>Componente hijo</h3>-->
+<div class="hijo">
+  <h4 [ngClass]="{tachado: leido == true}" style="display: inline">{{ aviso }}</h4>
+  <button class="btn btn-success float-md-right"
+          (click)="marcar(); detectar($event)"
+          *ngIf="leido == false">Marcar como leído</button>
+  <button class="btn btn-danger float-md-right"
+          (click)="marcar()"
+          *ngIf="leido == true">Desmarcar como leído</button>
+</div>

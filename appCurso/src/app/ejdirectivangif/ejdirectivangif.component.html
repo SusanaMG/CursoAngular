@@ -1,0 +1,11 @@
+<div class="container">
+  <label>Nombre y Apellidos</label>
+  <input type="text"
+         class="form-control"
+         placeholder="Complete su nombre y apellidos"
+         [(ngModel)]="nombre">
+  <button type="submit" class="btn btn-primary"
+          *ngIf="nombre">
+                Enviar
+  </button>
+</div>
