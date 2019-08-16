@@ -16,6 +16,9 @@ Fuente: https://jjasonclark.com/how-to-setup-node-behind-web-proxy/
 ===============================================================================
 Video 003: 003 Arranque de Aplicacion y Estructura de Archivos
 
+Para crear una nueva aplicación (en consola):
+ng new appCompras
+-------------------------------------
 Arrancar el servidor (en consola):
 ng serve
 
@@ -277,7 +280,7 @@ Ejemplo:
 ===============================================================================
 Video 024: 024 Creacion de Directivas Propias
 
-Para crear la directiva se puede utilizar la herramienta de modo de comando de CLI:
+Para crear la directiva se puede utilizar la herramienta de modo de comando de CLI (se crea el fichero nombredirectiva.directive.ts):
 ng generate directive nombredirectiva
 
 Para aplicar la directiva:
@@ -414,43 +417,107 @@ En la plantilla HTML, cuando un evento tiene un método que tiene que recibir el 
 TEMA 04 Pipes
 *************
 
+Los pipes se emplean para dar formato de salida a los valores que se emplean en la aplicación.
+
 ===============================================================================
 Video 027: 027 Pipe Date
 
+Pipe Date: para dar formato a fechas (hora y uso horario). El nombre del pipe es 'date'.
 
-
-
+Ejemplos:
+  <p>Madrid, {{ hoy | date: 'd/M/y H:m' }}</p>
+  SALIDA: Madrid, 14/8/2019 13:36
+  <p>Madrid, {{ hoy | date: 'd-M-y' }} a las {{hoy | date: 'H:m Z'}}</p>
+  SALIDA: Madrid, 14-8-2019 a las 13:36 +0200
 
 ===============================================================================
 Video 028: 028 Pipe Uppercase y Lowercase
 
+Pipe Uppercase: modifica las cadenas de texto a mayúsculas. El nombre del pipe es 'uppercase'.
 
+Pipe Lowercase: modifica las cadenas de texto a minúsculas. El nombre del pipe es 'lowercase'.
 
+Ejemplos:
+  Siendo ciudad tipo string = Madrid:
+    <p> {{ ciudad | uppercase }} es mi ciudad</p>
+    SALIDA: MADRID es mi ciudad
+    <p> {{ ciudad | lowercase }} es mi ciudad</p>
+    SALIDA: madrid es mi ciudad
 
 ===============================================================================
 Video 029: 029 Pipe Decimal
 
+En javaScript para los decimales se utiliza el punto. 
 
+Pipe Decimal: para formatear números. El nombre del pipe es 'number'. Las opciones indican: dígitos enteros que va a tener la presentación del número.número mínimo de dígitos decimales-número máximo de dígitos decimales
 
+Ejemplos:
+  Siendo resultado tipo number = 1.148:
+    <p>El resultado es {{ resultado | number: '3.2-2' }}</p>
+    SALIDA: El resultado es 001.15
+  Siendo resultado tipo number = 1.2:
+    <p>El resultado es {{ resultado | number: '3.2-2' }}</p>
+    SALIDA: El resultado es 001.20
 
 ===============================================================================
 Video 030: 030 Pipe Currency
 
+Pipe Currency: para utilizar con monedas. El nombre del pipe es 'currency'. Las opciones indican: 'código de la moneda': true (para que se muestre el símbolo de la moneda).
 
-
+Ejemplos:
+  Siendo dolareuro tipo number = 0.88;
+    <p>El cambio del dólar es de {{ dolareuro | currency: 'EUR': true }}</p>
+    SALIDA: El cambio del dólar es de €0.88
+    <p>El cambio del dólar es de {{ dolareuro | currency: 'EUR': false }}</p>
+    SALIDA: El cambio del dólar es de EUR0.88
 
 ===============================================================================
 Video 031: 031 Pipe i18nSelect
 
+Pipe i18nSelect: para establecer el valor de una propiedad en función del valor de otra. 
+En nombre.component.ts:
+  export class EjpipesComponent implements OnInit {
+    propIndependiente : tipo = 'valor1Indep';
+    propDependiente: any = {'valor1Indep':'valor1Dep', 'valor2Indep':'valor2Dep'};
+    }
 
+En nombre.component.html:
+  <p>{{ propiedadIndependiente | i18nSelect: propiedadDependiente }}</p>
 
+Ejemplos:
+  En nombre.component.ts:
+    export class EjpipesComponent implements OnInit {
+      nombre1: string = 'Laura';
+      sexo1: string = 'mujer';
+      nombre2: string = 'Pedro';
+      sexo2: string = 'hombre';
+      encabezamiento: any = {'hombre':'Estimado', 'mujer':'Estimada'};
+    }
+  En nombre.component.html:
+    <p>{{ sexo1 | i18nSelect: encabezamiento }} {{ nombre1 }}</p>
+  SALIDA: Estimada Laura
+  En nombre.component.html:
+    <p>{{ sexo2 | i18nSelect: encabezamiento }} {{ nombre2 }}</p>
+  SALIDA: Estimado Pedro
 
 ===============================================================================
 Video 032: 032 Creacion de Pipes Propios
 
+Para crear un pipe se puede utilizar la herramienta de modo de comando de CLI (se crea el fichero nombrepipe.pipe.ts):
+ng generate pipe nombrepipe
 
+El pipe creado automáticamente (y en nombre.module.ts se importa y se declara automáticamente) tiene:
+** Importaciones:
+Se importa las dependencias y librerías que necesita para trabajar. Importa Pipe y PipeTransform del core de Angular. 
+** Decorador:
+@Pipe: indica el nombre que va a tener el pipe para luego poder usarlo. 
+** Exportaciones: 
+Exporta la clase donde va el código que va a realizar el pipe. La clase implementa la interfaz PipeTransform que nos da un método transform() que modificaremos para obtener la funcionalidad que se desee que realice el pipe:
+  transform(value: any, ...args: any[]): any {
+    return null;
+  }
 
-
+Para aplicar el pipe se pone su nombre de la misma forma que el resto de pipes. 
 
 ===============================================================================
 ===============================================================================
@@ -458,13 +525,13 @@ TEMA 05 Servicios
 *****************
 
 ===============================================================================
-Video 033:
+Video 033: 033 Creacion de un Servicio
 
 
 
 
 ===============================================================================
-Video 034: 
+Video 034: 034 Objetos en Servicios
 
 
 
