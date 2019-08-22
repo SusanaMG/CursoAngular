@@ -575,16 +575,50 @@ TEMA 06 Routing
 ***************
 
 ===============================================================================
-Video 035:
+Video 035: 035 Implementacion de Routing
 
+Las aplicaciones angular están diseñadas para ser Single Page Application (SPA), con lo que van a contar con una página sobre la cual los componentes se van a ir renderizando sin necesidad de que refresque la página, coniguiendo una aplicación ágil y eficiente. 
 
+Esto no significa que todos los componentes estén en una misma y única página puesto que haría que fuera aplicación compleja y difícil de manejar por el usuario cuando haya muchos componentes. Para ello se emplea el Routing.
 
+El Routing con la ayuda de la barra de navegación del navegador establece una serie de URL que cargan dinámicamente cada componente. 
+
+A) En el módulo de la aplicación (app.module.ts): 
+1º: se importan los paquetes de Routing que son Routes y RouterModule desde @angular/router.
+
+2º: en los imports del decorador @NgModule se importa RouterModule.forRoot(routes) para establecer un array de rutas que va a usar la app para cargar los distintos componentes en la página. 
+
+3º: se crea como una constante el array de rutas. La primera ruta va sin nombre del componente porque va a coincidir con la URL raíz de la aplicación:
+  const routes: Routes = [
+    { path: '', component: InicioComponent },
+    { path: 'nombreruta', component: NombrecomponenteComponent }
+  ];
+
+También se puede añadir una ruta con una máscara para que cuando escribamos una ruta que no existe nos derive a ella (ejemplo de la página para error 404): 
+    { path: '**', component: NombrecomponenteAlQueDerivar }
+
+B) En la plantilla raíz (app.component.html) de la aplicación se pone la etiqueta de angular <router-outlet> que dinámicamente estable la etiqueta del componente que le diga la ruta. 
 
 ===============================================================================
-Video 036: 
+Video 036: 036 Barra de Navegacion
 
+Para crear una barra de navegación con links a las rutas que hemos establecido para el Routing: 
 
+1º: se crea un componente  (por ejemplo lo llamamos header). En la plantilla del componente ponemos una barra de navegación (de bootstrap4 o se crea manualmente o se saca de otro framework). Se personalizan los links con las url de la aplicación: 
 
+  <li class="nav-item" routerLinkActive="active">
+      <a class="nav-link" routerLink="/">Inicio </a>
+  </li>
+  <li class="nav-item" routerLinkActive="active">
+      <a class="nav-link" routerLink="/nombreruta">Nombre página</a>
+  </li>
+
+2º: En la plantilla raíz (app.component.html) de la aplicación se pone la etiqueta con el nombre del componente que tiene la barra de navegación. 
+Ejemplo de app.component.html:
+  <app-header></app-header>
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>  
 
 ===============================================================================
 ===============================================================================
@@ -592,31 +626,31 @@ TEMA 07 Formularios
 *******************
 
 ===============================================================================
-Video 037:
+Video 037: 037 Template Driven
 
 ===============================================================================
-Video 038: 
+Video 038: 038 Template Driven II
 
 ===============================================================================
-Video 039:
+Video 039: 039 Carga de Datos en Select
 
 ===============================================================================
-Video 040: 
+Video 040: 040 Validaciones HTML
 
 ===============================================================================
-Video 041:
+Video 041: 041 Ayudas Dinamicas
 
 ===============================================================================
-Video 042:
+Video 042: 042 Reactive
 
 ===============================================================================
-Video 043:
+Video 043: 043 Reactive II
 
 ===============================================================================
-Video 044:
+Video 044: 044 Validacion Programatica
 
 ===============================================================================
-Video 045:
+Video 045: 045 valueChangues
 
 ===============================================================================
 ===============================================================================
