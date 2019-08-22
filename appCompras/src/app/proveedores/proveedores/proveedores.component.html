@@ -1,0 +1,23 @@
+<!-- Ejemplo de inyección de objetos y sus propidades en los componentes -->
+<h3>Listado de proveedores</h3>
+<table class="table table-bordered table-striped" style="margin-top:40px ">
+  <thead>
+    <tr class="filters">
+      <th>Nombre</th>
+      <th>Correo electrónico</th>
+      <th>Teléfono</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let proveedor of proveedores">
+      <td>{{ proveedor.nombre }}</td>
+      <td><a href="mailto:{{ proveedor.email }}">{{ proveedor.email }}></a></td>
+      <td>{{ proveedor.telefono }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Ejemplo de creación de un servicio e inyección de dependencias -->
+<!--
+<h2>Éste el código que se inyecta: {{ mensaje }}</h2>
+-->

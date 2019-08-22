@@ -527,15 +527,47 @@ TEMA 05 Servicios
 ===============================================================================
 Video 033: 033 Creacion de un Servicio
 
+Los servicios son unos elementos de angular que nos permiten centralizar el código para luego emplearlo en cada componente donde lo necesitemos mediante la inyección de dependencias. Se llaman 'providers' porque se usan para gestionar datos e inyectarlos en los componentes.
 
+Los proyectos suelen tener varios servicios así que lo mejor es reunirlos en un directorio. 
 
+Para crear un servicio se puede utilizar la herramienta de modo de comando de CLI (se crea el fichero nombreservicio.service.ts):
+ng generate service nombrecarpeta/nombreservicio --spec false
+
+Cuando se crea puede estar generado pero no provisto, por lo tanto, hay que introducirlo en el archivo app.module.ts importándolo desde la carpeta donde se ha guardado y metiéndolo en el metadato "providers" del decorador @NgModule. 
+
+El archivo del servicio tiene una estructura de código compuesta por: 
+** Importaciones:
+Se importa la clase Inyectable del core de Angular. 
+** Decorador:
+@Injectable.
+** Exportaciones: 
+Exporta la clase donde va el código que va a realizar el sercivio.
+
+Angular implementa un servicio en un componente mediante métodos, para trasladar el código de los servicios a los componentes. La forma de hacerlo es: 
+
+1º: en el fichero typeScript del componente, importando el servicio y en el constructor de la clase usando como parámetro una propiedad nombreservicio e igualándola al nombre de la clase del servicio. Al estar en el constructor, cuando se inicie el componente se va a llamar a ese servicio. El nombre de la propiedad puede ir con letra minúscula, o poniendo delante un guión bajo o poniendo pService.
+
+Ejemplo:
+  constructor(private proveedoresService: ProveedoresService) { }
+  constructor(private _proveedoresService: ProveedoresService) { }
+  constructor(private pService: ProveedoresService) { }
+
+2º: desde el fichero typeScript del componente se llama al método del servicio usando el método ngOnInit() cuya función es que cada vez que se inicialice dentro del ciclo de vida de los componentes angular este componente, llevará a cabo el código que lleva dentro. 
 
 ===============================================================================
 Video 034: 034 Objetos en Servicios
 
+En el servicio, en la clase, puede haber un array que contenga un conjunto de objetos. Ese array puede ser devuelto por un método dentro de la clase.
 
+  export class nombreservicioService {
+    nombreArray: any = [{ objeto1 }, { objeto2 }];
+    constructor() { }
+    metodoDelServicio() {
+      return this.nombreArray; // Devuelve el array
+    }
 
-
+En el componente, desde el método ngOnInit() se llama al método del servicio y se obtiene el valor de los objetos. 
 
 ===============================================================================
 ===============================================================================
