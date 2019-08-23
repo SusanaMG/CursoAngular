@@ -579,14 +579,14 @@ Video 035: 035 Implementacion de Routing
 
 Las aplicaciones angular están diseñadas para ser Single Page Application (SPA), con lo que van a contar con una página sobre la cual los componentes se van a ir renderizando sin necesidad de que refresque la página, coniguiendo una aplicación ágil y eficiente. 
 
-Esto no significa que todos los componentes estén en una misma y única página puesto que haría que fuera aplicación compleja y difícil de manejar por el usuario cuando haya muchos componentes. Para ello se emplea el Routing.
+Esto no significa que todos los componentes estén en una misma y única página puesto que haría que fuera una aplicación compleja y difícil de manejar por el usuario cuando hay muchos componentes. Para ello se emplea el Routing.
 
 El Routing con la ayuda de la barra de navegación del navegador establece una serie de URL que cargan dinámicamente cada componente. 
 
 A) En el módulo de la aplicación (app.module.ts): 
 1º: se importan los paquetes de Routing que son Routes y RouterModule desde @angular/router.
 
-2º: en los imports del decorador @NgModule se importa RouterModule.forRoot(routes) para establecer un array de rutas que va a usar la app para cargar los distintos componentes en la página. 
+2º: en los imports del decorador @NgModule se importa RouterModule.forRoot(routes) para establecer un array de rutas que va a usar la aplicación para cargar los distintos componentes en la página. 
 
 3º: se crea como una constante el array de rutas. La primera ruta va sin nombre del componente porque va a coincidir con la URL raíz de la aplicación:
   const routes: Routes = [
@@ -628,31 +628,173 @@ TEMA 07 Formularios
 ===============================================================================
 Video 037: 037 Template Driven
 
+Los formularios es la parte de la web don de el usuario va a interaccionar introduciendo datos y por ello, son muy importantes. 
+
+Hay dos modalidades para crear formularios en Angular:
+** Template Driven: realiza la lógica de captura de datos como la validación de los mismos del lado del archivo HTML. 
+** Reactive: gestiona el formulario desde el archivo typeScript.
+
+Ejemplo: creamos un nuevo componente con un formulario. Este componente se incluye en el array de rutas de app.module.ts y se enlaza con algún link en la barra de navegación o algún link de botón. 
+
 ===============================================================================
 Video 038: 038 Template Driven II
+
+A partir del ejemplo que tenemos, vamos a añadir la lógica. 
+
+1º: antes de empezar, hay que asegurarse que en la aplicación se tiene importado FormsModule que es la librería para gestionar formularios (en app.module.ts):
+  import { FormsModule } from '@angular/forms';
+
+2º: en el fichero typeScript del componente que tiene el formulario, en la clase, se declara un objeto en el que se guardarán los datos del formulario y en el constructor se inicializa ese objeto en forma de documento json con sus propiedades con los valores de texto vacíos y los numéricos a null.
+
+3º: se enlazan los datos del formulario con la clase del componente.
+1) En la plantilla HTML del componente que tiene el formulario, en la etiqueta del formulario <form> se añade la clase (ngSubmit) de FormsModule y se iguala a un método nuestro para que cuando se le dé al botón Submit angular desencadene el método.
+2) En la plantilla HTML del componente que tiene el formulario, también en la etiqueta <form> se identifica el formulario con un id local #formpro="nombreFormulario" para que el objeto que se crea con el formulario (gracias a la importación de la clase FormsModule) tenga esa id local.
+3) En la plantilla HTML del componente que tiene el formulario, por último, hay que identificar cada uno de los campos en el objeto del formulario. Dentro de la etiqueta input en cada campo se añade ngModel name="nombrepropiedadobjeto". 
+
+4º: en el fichero typeScript del componente que tiene el formulario, se importa ViewChild del core de Angular y NgForm de los formularios de Angular:
+import { ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+Dentro de la clase, en modo decorador se añade @ViewChild para hacer una vista del id local del formulario y el nombre de la vista se declara del tipo NgForm. 
+
+5º: el método que se llama a través de (ngSubmit) se declara en la clase en el fichero typeScript del componente que tiene el formulario. En este método se enlaza la propiedad del objeto con el valor de la propiedad del objeto del formulario asociado a esa propiedad.
+
+Si no se tiene una base de datos, pero se quiere comprobar si el objeto se está cargando correctamente en el formulario y en el método, se puede usar en la plantilla HTML del componente que se muestre el objeto por interpolación usando el pipe 'json'.
+  <pre>{{ proveedor | json }}</pre>
 
 ===============================================================================
 Video 039: 039 Carga de Datos en Select
 
+En los formularios los campos de tipo Select son campos con valores fijos de los cuales el usuario tiene que escoger uno de ellos. 
+
+En el fichero typeScript del componente que tiene el formulario, se añade un array con los valores que el usuario tendrá para elegir en el campo Select. 
+
+En la plantilla HTML del componente que tiene el formulario, en el campo que queremos que sea Select ponemos la etiqueta <select> e identificamos con la misma propiedad en el objeto del formulario. También se añade ngModel name="nombrepropiedadobjeto". En las opciones iteramos el array con la directiva *ngFor.
+
 ===============================================================================
 Video 040: 040 Validaciones HTML
+
+Validaciones de HTML5. Algunas son: required (campo obligatorio), email (el texto cumple con las reglas de un email), etc.
+
+Angular anula las validaciones de HTML5 porque ngForm tiene su propio sistema de validación. Implementa una serie de estados por los que pasa el campo cuando el usuario está utilizando el formulario. Los estados son:
+** Dirty: cuando el usuario comienza a utilizar el campo (puslsar sobre el campo y empezar a escribir) es true.
+** Pristine: cuando el campo aún no se ha tocado es true.
+** Touched: cuando se quita el foco del campo pasa a true
+** Valid: el campo cumple con las normas de validación que tiene puestas.
+** Invalid: el campo no cumple con las normas de validación que tiene puestas.
+
+Angular tiene asociadas a estos estados una serie de clases CSS que nos permiten configurar las ayudas al usuario a la hora de completar el formulario. También como son propiedades del objeto se pueden utilizar para establecer una lógica en el botón de envío. La forma de enlazar desde el fichero CSS del componente que tiene el formulario es, por ejemplo:
+  input.ng-invalid.ng-touched {
+    border-left: 5px solid #A94442;
+  }
+  input.ng-valid.ng-dirty {
+    border-left: 5px solid #42A948;
+  }
 
 ===============================================================================
 Video 041: 041 Ayudas Dinamicas
 
+Se pueden añadir mensajes/iconos para que aparezcan en función del estado del campo.
+
+Iconos:
+En la plantilla HTML del componente que tiene el formulario, en la etiqueta input hay que poner un id local para identificarlo: 
+  #idlocal="ngModel">
+Se pueden añadir iconos en los cuales se usa la directiva *ngIf y la condición sea  si el campo cumple un estado u otro: 
+   <i class="fa fa-check-circle check" *ngIf="idlocal.valid"></i>
+   <i class="fa fa-exclamation-circle uncheck" *ngIf="idlocal.invalid &&         idlocal.touched"></i>
+
+En el ejemplo se han usado iconos de fontawesome (fa=fontawesome) así que se ha de importar al index.html:
+  <script src="https://use.fontawesome.com/bacad173cf.js"></script>
+ 
+Mensajes con textos:
+Se añade un párrafo en el cual se usa la directiva *ngIf siendo la condición que el campo cumpla un estado u otro:
+  <p class="alert alert-danger" *ngIf="idlocal.invalid && idlocal.touched">
+            Por favor, introduzca una dirección de correo válida
+  </p>
+
+
+Se puede añadir el atributo "Disable" al botón del submit para que solo se pueda enviar cuando la totalidad del formulario sea válida. 
+  <button type="submit" class="btn btn-success"
+          [disabled]="!formpro.valid">
+          Añadir Proveedor
+  </button>
+
 ===============================================================================
 Video 042: 042 Reactive
+
+Hay dos modalidades para crear formularios en Angular:
+** Template Driven: realiza la lógica de captura de datos como la validación de los mismos del lado del archivo HTML. 
+** Reactive: gestiona el formulario desde el archivo typeScript.
+
+Reactive tiene aún más control sobre la gestión de los formularios. 
+ 
+En app.module.ts hay que importar la dependencia ReactiveFormsModule desde los formularios de Angular. 
+  import { ReactiveFormsModule } from '@angular/forms';
+
+Ejemplo: creamos un nuevo componente con un formulario. Este componente se incluye en el array de rutas de app.module.ts y se enlaza con un link en la barra de navegación.
 
 ===============================================================================
 Video 043: 043 Reactive II
 
+A partir del ejemplo que tenemos, vamos a añadir la lógica. 
+
+1º: antes de empezar, hay que asegurarse que en la aplicación se tiene importado ReactiveFormsModule que es la librería para gestionar formularios con la técnica Reactive (en app.module.ts):
+  import { ReactiveFormsModule } from '@angular/forms';
+
+2º: en el fichero typeScript del componente que tiene el formulario, se importa FormControl, FormGroup y FormBuilder de los formularios de Angular:
+  import { FormControl, FormGroup, FromBuilder } from '@angular/forms';
+
+3º: en el fichero typeScript del componente que tiene el formulario, en la clase, se declara un objeto en el que se almacenarán los valores de los campos del formulario y es de la clase FormGroup. También se declara otro objeto donde se van a almacenar los valores de cada nuevo presupuesto. En el constructor .....min 1:57
+
+
+En el constructor .....min 1:57
+
+se inicializa ese objeto en forma de documento json con sus propiedades con los valores de texto vacíos y los numéricos a null.
+
+
+
+4º: 
+5º: 
+6º: 
+7º: 
+8º: 
+
+
+
 ===============================================================================
 Video 044: 044 Validacion Programatica
+
+
+
+BOOOOOOOOOOOOOOOOOORRAR
+3º: se enlazan los datos del formulario con la clase del componente.
+1) En la plantilla HTML del componente que tiene el formulario, en la etiqueta del formulario <form> se añade la clase (ngSubmit) de FormsModule y se iguala a un método nuestro para que cuando se le dé al botón Submit angular desencadene el método.
+2) En la plantilla HTML del componente que tiene el formulario, también en la etiqueta <form> se identifica el formulario con un id local #formpro="nombreFormulario" para que el objeto que se crea con el formulario (gracias a la importación de la clase FormsModule) tenga esa id local.
+3) En la plantilla HTML del componente que tiene el formulario, por último, hay que identificar cada uno de los campos en el objeto del formulario. Dentro de la etiqueta input en cada campo se añade ngModel name="nombrepropiedadobjeto". 
+
+4º:
+Dentro de la clase, en modo decorador se añade @ViewChild para hacer una vista del id local del formulario y el nombre de la vista se declara del tipo NgForm. 
+
+5º: el método que se llama a través de (ngSubmit) se declara en la clase en el fichero typeScript del componente que tiene el formulario. En este método se enlaza la propiedad del objeto con el valor de la propiedad del objeto del formulario asociado a esa propiedad.
+
+Si no se tiene una base de datos, pero se quiere comprobar si el objeto se está cargando correctamente en el formulario y en el método, se puede usar en la plantilla HTML del componente que se muestre el objeto por interpolación usando el pipe 'json'.
+  <pre>{{ proveedor | json }}</pre>
+
+
+
+
+
 
 ===============================================================================
 Video 045: 045 valueChangues
 
-===============================================================================
+
+
+
+
+
+
+
+======================================================================
 ===============================================================================
 TEMA 08 HTTP_ Base de datos en Firebase
 ***************************************
