@@ -676,7 +676,7 @@ Video 040: 040 Validaciones HTML
 Validaciones de HTML5. Algunas son: required (campo obligatorio), email (el texto cumple con las reglas de un email), etc.
 
 Angular anula las validaciones de HTML5 porque ngForm tiene su propio sistema de validación. Implementa una serie de estados por los que pasa el campo cuando el usuario está utilizando el formulario. Los estados son:
-** Dirty: cuando el usuario comienza a utilizar el campo (puslsar sobre el campo y empezar a escribir) es true.
+** Dirty: cuando el usuario comienza a utilizar el campo (pulsar sobre el campo y empezar a escribir) es true.
 ** Pristine: cuando el campo aún no se ha tocado es true.
 ** Touched: cuando se quita el foco del campo pasa a true
 ** Valid: el campo cumple con las normas de validación que tiene puestas.
@@ -711,7 +711,6 @@ Se añade un párrafo en el cual se usa la directiva *ngIf siendo la condición que
             Por favor, introduzca una dirección de correo válida
   </p>
 
-
 Se puede añadir el atributo "Disable" al botón del submit para que solo se pueda enviar cuando la totalidad del formulario sea válida. 
   <button type="submit" class="btn btn-success"
           [disabled]="!formpro.valid">
@@ -741,60 +740,147 @@ A partir del ejemplo que tenemos, vamos a añadir la lógica.
   import { ReactiveFormsModule } from '@angular/forms';
 
 2º: en el fichero typeScript del componente que tiene el formulario, se importa FormControl, FormGroup y FormBuilder de los formularios de Angular:
-  import { FormControl, FormGroup, FromBuilder } from '@angular/forms';
+  import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 
-3º: en el fichero typeScript del componente que tiene el formulario, en la clase, se declara un objeto en el que se almacenarán los valores de los campos del formulario y es de la clase FormGroup. También se declara otro objeto donde se van a almacenar los valores de cada nuevo presupuesto. En el constructor .....min 1:57
+3º: en el fichero typeScript del componente que tiene el formulario, en la clase: 
+1) Se declara un objeto en el que se almacenarán los valores de los campos del formulario y es de la clase FormGroup (ej: objeto1). 
+2) También se declara otro objeto de este componente donde se van a almacenar con formato json los valores de cada nuevo presupuesto (ej: objeto2).  
+3) En el constructor, como parámetro se pone una nueva propiedad de la clase FormBuilder (ej: propCompo1).
+4) En el método ngOnInit(), se iguala el objeto de la clase FormGroup con el método de la propiedad de la clase FormBuilder, en concreto con el método group()  que sirve para asociar los diferentes campos, inicializando vacías dentro del método el objeto del componente cada una de sus propiedades:
+  ngOnInit() {
+    this.objeto1 = this.propCompo1.group({
+      propiedad1: '',
+      propiedad2: ''
+    });
+  }
 
+4º: se enlazan los datos del formulario con la clase del componente.
+1) En la plantilla HTML del componente que tiene el formulario, en la etiqueta del formulario <form> se añade [formGroup] y se iguala al objeto del formulario (ej: el objeto1).
+2) En la plantilla HTML del componente que tiene el formulario, hay que identificar cada uno de los campos en el objeto del formulario. Dentro de la etiqueta input en cada campo se añade formControlName="nombrepropiedadobjeto".
 
-En el constructor .....min 1:57
+Si en este momento, se meten datos en los campos del formulario quedan reflejados en tiempo real en el objeto del formulario sin necesidad aún de haberlos enviado. 
 
-se inicializa ese objeto en forma de documento json con sus propiedades con los valores de texto vacíos y los numéricos a null.
+5º: ahora hay que aplicar la lógia al botón de envío. 
+1) En la plantilla HTML del componente que tiene el formulario, en la etiqueta del formulario <form> se añade la clase (ngSubmit) y se iguala a un método nuestro para que cuando se le dé al botón Submit angular desencadene el método.
+2) El método que se llama a través de (ngSubmit) se declara en la clase en el fichero typeScript del componente que tiene el formulario. En este método se enlaza cada propiedad del objeto del componente con otro método nuevo.
+3) El método nuevo crea una constante en forma de objeto de tipo json en memoria con las mismas propiedades del objeto del componente y cada propiedad va a tener el valor de cada propiedad del objeto del formulario para el mismo nombre. El método devuelve la constante. 
+ onSubmit() {
+    this.objeto2 = this.newMetodo();
+  }
+  newMetodo() {
+    const nuevoMetodo = {
+      propiedad1: this.objeto1.get('propiedad1').value,
+      propiedad2: this.objeto1.get('propiedad2').value
+    };
+    return nuevoMetodo;
+  }
 
-
-
-4º: 
-5º: 
-6º: 
-7º: 
-8º: 
-
-
+Si no se tiene una base de datos, pero se quiere comprobar si los objetos se están cargando correctamente en el formulario y en el método, también ver el estado del objeto del formulario, se puede usar en la plantilla HTML del componente que se muestre el objeto por interpolación usando el pipe 'json'.
+  <pre>Valor obj del formulario: {{ objeto1.value | json }}</pre>
+  <pre>Estado obj del formulario: {{ objeto1.status | json }}</pre>
+  <pre>Valor objeto del componente: {{ objeto2.value | json }}</pre>
 
 ===============================================================================
 Video 044: 044 Validacion Programatica
 
+No se usan las validaciones de HTML5.
 
+La validación programática se hace por parte del componente. 
 
-BOOOOOOOOOOOOOOOOOORRAR
-3º: se enlazan los datos del formulario con la clase del componente.
-1) En la plantilla HTML del componente que tiene el formulario, en la etiqueta del formulario <form> se añade la clase (ngSubmit) de FormsModule y se iguala a un método nuestro para que cuando se le dé al botón Submit angular desencadene el método.
-2) En la plantilla HTML del componente que tiene el formulario, también en la etiqueta <form> se identifica el formulario con un id local #formpro="nombreFormulario" para que el objeto que se crea con el formulario (gracias a la importación de la clase FormsModule) tenga esa id local.
-3) En la plantilla HTML del componente que tiene el formulario, por último, hay que identificar cada uno de los campos en el objeto del formulario. Dentro de la etiqueta input en cada campo se añade ngModel name="nombrepropiedadobjeto". 
+1º: en el fichero typeScript del componente que tiene el formulario se importa la clase Validators desde los formularios de Angular. 
+  import { Validators } from '@angular/forms';
 
-4º:
-Dentro de la clase, en modo decorador se añade @ViewChild para hacer una vista del id local del formulario y el nombre de la vista se declara del tipo NgForm. 
+La clase Validators se añade al objeto del formulario (en el ej. objeto1), en cada una de las propiedades del objeto que se quiera validar, en el método ngOnInit() cuando se está inicializando el objeto. Si se tienen varias validaciones sobre un mismo campo, se introducen en un array de validaciones. Ejemplo: validación de "requerido":
+  ngOnInit() {
+    this.objeto1 = this.propCompo1.group({
+      propiedad1: ['', Validators.required ],
+      propiedad2: ['', [Validators.validacion1, Validators.validacion2] ]
+    });
+  }
 
-5º: el método que se llama a través de (ngSubmit) se declara en la clase en el fichero typeScript del componente que tiene el formulario. En este método se enlaza la propiedad del objeto con el valor de la propiedad del objeto del formulario asociado a esa propiedad.
+2º: en la plantilla HTML del componente que tiene el formulario, se puede añadir el atributo "Disable" al botón del submit para que solo se pueda enviar cuando la totalidad del formulario sea válida. 
+  <button type="submit" class="btn btn-success"
+          [disabled]="!objeto1.valid">
+          Añadir Presupuesto
+  </button>
 
-Si no se tiene una base de datos, pero se quiere comprobar si el objeto se está cargando correctamente en el formulario y en el método, se puede usar en la plantilla HTML del componente que se muestre el objeto por interpolación usando el pipe 'json'.
-  <pre>{{ proveedor | json }}</pre>
+3º: se puede añadir un párrafo en el cual se usa la directiva *ngIf siendo la condición que el campo cumpla un estado u otro:
+  <p class="alert alert-danger" *ngIf="objeto1.invalid && objeto1.touched">
+            Por favor, complete todos los campos obligatorios
+  </p>
 
+Angular tiene asociadas a los estados una serie de clases CSS que nos permiten configurar las ayudas al usuario a la hora de completar el formulario. También como son propiedades del objeto se pueden utilizar para establecer una lógica en el botón de envío. La forma de enlazar desde el fichero CSS del componente que tiene el formulario es, por ejemplo:
+  input.ng-invalid.ng-touched {
+    border-left: 5px solid #A94442;
+  }
+  input.ng-valid.ng-dirty {
+    border-left: 5px solid #42A948;
+  }
 
+Si se quiere añadir mensajes de alerta, iconos o ayudas al usuario, se hace igual que en el video "Ayudas Dinamicas":         
+  <i class="fa fa-check-circle check"
+     *ngIf="objeto1.controls.proveedor.valid"></i>
+  <i class="fa fa-exclamation-circle uncheck"
+     *ngIf="objeto1.controls.proveedor.invalid &&
+            objeto1.controls.proveedor.touched"></i>
+  <p class="alert alert-danger"
+     *ngIf="objeto1.controls.proveedor.invalid &&
+            objeto1.controls.proveedor.touched">
+              El campo proveedor es obligatorio
+  </p>
 
-
-
+En la web https://angular.io/api/forms/Validators se encuentra la documentación con las diferentes opciones de validación que se pueden usar:
+class Validators {
+  static min(min: number): ValidatorFn
+  static max(max: number): ValidatorFn
+  static required(control: AbstractControl): ValidationErrors | null
+  static requiredTrue(control: AbstractControl): ValidationErrors | null
+  static email(control: AbstractControl): ValidationErrors | null
+  static minLength(minLength: number): ValidatorFn
+  static maxLength(maxLength: number): ValidatorFn
+  static pattern(pattern: string | RegExp): ValidatorFn
+  static nullValidator(control: AbstractControl): ValidationErrors | null
+  static compose(validators: ValidatorFn[]): ValidatorFn | null
+  static composeAsync(validators: AsyncValidatorFn[]): AsyncValidatorFn | null
+}
 
 ===============================================================================
-Video 045: 045 valueChangues
+Video 045: 045 valueChanges
+
+ValueChanges permite crear formularios dinámicos, por ejmplo, operaciones aritméticas entre camposa tiempo real. 
+
+En el fichero typeScript del componente que tiene el formulario, en la clase: 
+1) Se declaran tantas nuevas propiedades como campos del formulario entervengan en las operaciones aritméticas. Algunas se inicializan a cero. 
+  propiedad3: any;
+  propiedad4: any = 0;
+2) En la inicialización en ngOnInit(), ahora esas propiedades del objeto del formulario no se van a inicializar vacías sino que se inicializan igualándolas a las nuevas propiedades de la clase (cada propiedad de la calse respecto a su propiedad del objeto correspondiente). También se llama a un método nuevo onChanges().
+  ngOnInit() {
+    this.objeto1 = this.propCompo1.group({
+      propiedad1: ['', Validators.required ],
+      propiedad4: this.propiedad4
+    });
+    this.onChanges();
+  }
+3) Se define el método de tipo void para que se detecten los cambios a tiempo real. Para el objeto del formulario bajo a la clase observable valueChanges y el método subscribe() y una función flecha en la que por un lado se iguale la propiedad de la clase valor del campo de esa propiedad a tiempo real y por otro, se hagan marquen las operaciones. 
+  onChanges(): void {
+    this.objeto1.valueChanges.subscribe(valor => {
+      this.propiedad3 = valor.propiedad3;
+      this.objeto1.value.propiedad4 = this.propiedad3 * 2;
+    })
+
+
+En la plantilla HTML del componente que tiene el formulario, se ha de establecer ngModel para que se actualicen en tiempo real los valores de las propiedades en las que se realizan los cálculos. En el campo del fomulario que se va a actualizar en tiempo real:
+  <input type="number" class="form-control" 
+         id="propiedad4" formControlName="propiedad4"
+         [(ngModel)]="objeto1.value.propiedad4">
 
 
 
+Se obtienen formularios interactivos que realizan operaciones aritméticas.
 
+Los campos que reciben los cálculos se pueden deshabilitar para que el usuario no los modifique a mano. 
 
-
-
-
-======================================================================
+===============================================================================
 ===============================================================================
 TEMA 08 HTTP_ Base de datos en Firebase
 ***************************************
