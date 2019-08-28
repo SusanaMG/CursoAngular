@@ -2,6 +2,8 @@
   <div class="col col-md"></div>
   <div class="col-10 col-md-8">
     <h2>Añadir nuevo presupuesto</h2>
+    <a class="btn btn-primary float-md-right" routerLink="/presupuestos">
+        Regresar al listado</a>
     <form [formGroup]="presupuestoForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="proveedor">Proveedor</label>
@@ -76,10 +78,13 @@
               [disabled]="!presupuestoForm.valid">
                 Añadir presupuesto
       </button>
+      <a class="btn btn-danger" routerLink="/presupuestos">Cancelar</a>
       <p class="alert alert-danger" *ngIf="!presupuestoForm.valid">
         Por favor, complete todos los campos obligatorios
       </p>
     </form>
+<!-- Para previsualizar los datos relacionados con el formulario y los objetos creados -->
+<!--
     <pre>
       Valor del formulario: {{ presupuestoForm.value | json }}
     </pre>
@@ -89,6 +94,7 @@
     <pre>
       Valor del objeto: {{ presupuesto | json }}
     </pre>
+  -->
   </div>
   <div class="col col-md"></div>
 </div>

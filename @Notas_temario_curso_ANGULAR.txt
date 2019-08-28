@@ -850,7 +850,7 @@ Video 045: 045 valueChanges
 ValueChanges permite crear formularios dinámicos, por ejmplo, operaciones aritméticas entre camposa tiempo real. 
 
 En el fichero typeScript del componente que tiene el formulario, en la clase: 
-1) Se declaran tantas nuevas propiedades como campos del formulario entervengan en las operaciones aritméticas. Algunas se inicializan a cero. 
+1) Se declaran tantas nuevas propiedades como campos del formulario intervengan en las operaciones aritméticas. Algunas se inicializan a cero. 
   propiedad3: any;
   propiedad4: any = 0;
 2) En la inicialización en ngOnInit(), ahora esas propiedades del objeto del formulario no se van a inicializar vacías sino que se inicializan igualándolas a las nuevas propiedades de la clase (cada propiedad de la calse respecto a su propiedad del objeto correspondiente). También se llama a un método nuevo onChanges().
@@ -886,18 +886,231 @@ TEMA 08 HTTP_ Base de datos en Firebase
 ***************************************
 
 ===============================================================================
-Video 046:
+Video 046: 046 Configuracion de Firebase
+
+Firebase es una base de datos persistente en la nube.
+
+Vamos a emplear los métodos HTTP para conseguir que la aplicación sea de tipo CRUD (Create, Read, Update y Delete) en tiempo real. Los métodos HTTP son habitualmente utilizados en las aplicaciones web. 
+
+Desde google, logueados con una cuenta google, escribimos firebase.google.com y en la web entramos en "IR A LA CONSOLA" (https://console.firebase.google.com/).
+
+Añadimos proyecto, le damos un nombre y lo creamos. Una vez en el proyecto, entramos en Database (Menú lateral - Desarrollo - Database), y creamos una base de datos "Realtime Database".
+
+En la consola de la BBDD, en la pestaña REGLAS, modificamos la regla que viene por defecto y que es para solicitar autentificación y ponemos lo siguiente para que no sea necesario autentificarse: 
+  {
+    "rules": {
+     ".read": "true",
+      ".write": "true"
+    }
+  }
+
+En la pestaña DATOS aparece una URL que es la que se utiliza para conectarse con la BBDD mediante peticiones HTTP: https://nombrebbdd-800ac.firebaseio.com/
+
+Firebase dispone de una API propia de comunicación para conectarse con las aplicaciones Angular, pero no vamos a usarla para aprender cómo se usan las peticiones HTTP en Angular tanto para Firebase como para otro tipo de servidores de BBDD que no sean Firebase. 
 
 ===============================================================================
+Video 047: 047 HTTP Post_ Crear Registros_
 
+Crear registros en la BBDD con la petición post. 
 
+Se crea un nuevo servicio de Angular y se importa al módulo (app.module.ts). En app.module.ts se importan las dependencias para HTTP: 
+import { HttpModule } from '@angular/http';
 
+En el fichero del servicio se implementa la petición post para que cuando se cree un registro de un objeto de la clase se envíe a la BBDD Firebase:
+1º: se importan las clases necesarias y la librería 'rxjs' para emplear Post:
+  import { Headers, Http, Response } from '@angular/http';
+  import 'rxjs/Rx';
+2º: en la clase creamos una variable para almacenar la url de la colección de documentos (tabla) de la base de datos. A la url que proporciona Firebase se añade el nombre de la tabla con la extensión json. 
+  variable = 'https://nombrebbdd-800ac.firebaseio.com/tabla1.json';
+3º: en la clase, en el constructor como parámetro pasamos un objeto de la clase Http de Angular.
+4º: se crea el método para insertar objetos en la base de datos que recibe por parámetro un objeto (lo recibe del componente que tiene el formulario de creación de un objeto). Se crea una constante para transformar en cadena el parámentro que recibe el método. Se crea otra constante de la clase Headers para las cabeceras. Este método va a devolver la respuesta del servidor y se tiene el enlace entre nuestro servicio y la base de datos.
 
+En el fichero typeScript del componente que tiene el formulario de creación del objeto que se va a guardar en la base de datos se implementa el servicio: 
+1º: se importa el servicio. 
+2º: en el constructor se introduce como parámetro. 
+3º: en el método onSubmit(), se envía el objeto con los valores del formulario al método post del servicio para que lo reciba como parámetro. 
 
+===============================================================================
+Video 048: 048 HTTP Get_ Leer Registros_
 
+Recuperar registros de la BBDD (operaciones de lectura) con la petición get. 
 
+En el fichero del servicio se implementa la petición get para poder leer los registros de la BBDD Firebase:
+1º: se crea un método sin parámetros que devuelve lo que está en la url en formato json.
 
+Se crea un componente en la aplicación para recuperar y listar los resultados. Se añade su ruta al array de rutas del app.module.ts. 
 
+En la plantilla HTML del componente, se crea una tabla para recibir los resultados y un botón para acceder a la plantilla del componente para añadir nuevos registros.  
+
+En el fichero typeScript del componente:
+1º: se importa el Servicio.
+2º: en la clase se define el array de objetos y se inicializa vacío.
+3º: en el constructor se implementa el Servicio en el componente como parámetro. 
+4º: en el constructor, se cargan los registros de la base de datos en el componente, llamando al método del Servicio (que los ha formateado a formato json). Como en la BBDD Firebase hay una estructura de organización en la cual cada registro tiene un id para el nodo y el conjunto de propiedades, hay que introducir un for para recorrer la tabla y pasarlo a nuestra estructura de objetos de la aplicación. 
+
+===============================================================================
+Video 049: 049 HTTP Put_ Actualizar Registros I
+
+Actualizar o editar registros de la BBDD con la petición put. 
+
+En el fichero del servicio se implementa la petición put para que cuando se actualicen los registros en la BBDD Firebase:
+1º: en la clase creamos una variable para almacenar la url de la colección de documentos (tabla) de la base de datos. A la url que proporciona Firebase se añade el nombre de la tabla sin la extensión json. 
+  variable = 'https://nombrebbdd-800ac.firebaseio.com/tabla1';
+2º: se añade un método para antes de actualizar un registro, recuperarlo y que recibe como parámetro el identificador de Firebase. Se crea una constante para cargar una nueva url para el objeto y obtenerlo en formato json. El método devuelve la respuesta del servidor en formato json. 
+3º: se crea un método para implementar realizar la actualización. El método recibe como parámetros el objeto a actualizar y su id. Se crea una constante que será la actualización del objeto que viene del componente. Se crea otra constante de la clase Headers para las cabeceras. Se crea la constante de la ruta para acceder al registro correspondiente. El método devuelve el presupuesto actualizado en formato json.
+
+Se crea un componente en la aplicación para recuperar y editar los resultados. Se añade su ruta al array de rutas del app.module.ts. Se puede poner un formulario y a los campos input se les añade ngModel para actualizar los datos con los datos del objeto (excepto los campos que puedan tener operaciones aritméticas). 
+
+===============================================================================
+Video 050: 050 HTTP Put_ Actualizar Registros II
+
+En el fichero typeScript del componente que tiene el formulario de edición del objeto que se va a guardar en la base de datos se implementa el servicio: 
+1º: se importa el Servicio y se importa FormControl, FormGroup y FormBuilder de los formularios de Angular:
+  import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+2º: en la clase: 
+1) Se declara un objeto en el que se almacenarán los valores de los campos del formulario y es de la clase FormGroup (ej: objeto1). 
+2) También se declara otro objeto de este componente donde se van a almacenar con formato json los valores de cada nuevo presupuesto (ej: objeto2). 
+3) Se declaran tantas nuevas propiedades como campos del formulario intervengan en las operaciones aritméticas. Algunas se inicializan a cero. 
+4) En el constructor, como parámetro se pone una nueva propiedad de la clase FormBuilder (ej: propCompo1) y otro parámetro para implemntar el Servicio en el componente.
+5) En el método ngOnInit(), se iguala el objeto de la clase FormGroup con el método de la propiedad de la clase FormBuilder, en concreto con el método group()  que sirve para asociar los diferentes campos, inicializando vacías dentro del método el objeto del componente cada una de sus propiedades:
+  ngOnInit() {
+    this.objeto1 = this.propCompo1.group({
+      propiedad1: '',
+      propiedad2: ''
+    });
+  }
+También se incluyen los métodos necesarios si se tienen operaciones aritméticas o campos bajo valueChanges (campos calculados a partir de otros que se actualizan en tiempo real, etc).
+6) En el método onSubmit() se envía el objeto con los valores del formulario al método put del servicio para que lo reciba como parámetro y también se envía a ese método el id del registro. En Angular, esa id se obtiene de la ruta de navegación en la que está contenida. Para ello se importan las clases Router y ActivatedRoute de la clase router de Angular y en el constructor se incluyen como parámetros dos variables, una de cada clase. En el constructor se para que se inicialice con el componente se añade un código para recuperar de la base de datos un registro concreto completo (incluido el id que le da Firebase) y volcarlo en una propiedad de la clase del componente y como se aplica ngModel, esos campos se presentarán en los campos del formulario. El usuario editará los campos y se guardarán en la base de datos.
+
+Para conseguir establecer la ruta específica que contiene el id del componente para llegar a ese componente: se modifica la ruta de la web de edición del array de path de app.module.ts, añadiendo :id para forzar el tener que introducir /id. Creamos un botón para poder establecer esta nueva ruta desde la plantilla del componente que listaba los registros. 
+
+Se puede añadir una nueva funcionalidad a la web para que cuando se realicen cambios en un registro al pulsar el botón "Guardar cambios", el componente programáticamente nos devuelva al listado (redireccionar a otra web). En el método onSubmit() se ejecuta una definición de la ruta: onSubmit() {
+    this.presupuesto = this.savePresupuesto();
+    this.presupuestoService.putPresupuesto(this.presupuesto, this.id)
+          .subscribe(newpres => {
+            this.router.navigate(['/presupuestos'])
+          });
+    this.presupuestoForm.reset();
+  }
+
+===============================================================================
+Video 051: 051 HTTP Delete_ Eliminar Registros
+
+Borrar registros de la BBDD con la petición delete. 
+
+En el fichero del servicio se implementa la petición delete para borrar un registro concreto de la BBDD Firebase:
+1º: se añade un método para recibe como parámetro el identificador de Firebase. Se crea una constante para cargar la ruta para cargar un registro/objeto concreto y obtenerlo en formato json. El método devuelve la respuesta del servidor en formato json y lo que hace es borrar el registro. 
+
+En la plantilla HTML del componente que lista los registros se crea un botón para llamar a un método de borrado (al que se le pasa un id omo parámetro) que se define en el fichero typeScript del mismo componente. 
+
+En el fichero typeScript del componente que lista los registros, en la clase, se define el método al que llama su plantilla y que recibe como parámetro el id del registro. Este método llama al método del Servicio encargado de borrar, pasándole el id, y se suscribe para detectar qué ocurre mostrando el resultado por consola. 
+
+En el navegador, cuando se clica el botón de Eliminar el registro en la base de datos se elimina pero no se actualiza la interfaz hasta que no se refresca la página. Esto se produce porque el array de presupuestos en el componente sigue estando lleno con los registros con lo sque se inicializó. Para evitar esto, ya que se está creando una aplicación SPA (Single Page Application), desde el fichero typeScript del componente que lista los registros, cuando se llame al método de eliminar, se vaciará de contenido el array de registros y para volver a llenarlo, volvemos a cargarlo con el mismo código con el que se inicializa en el constructor. 
+
+===============================================================================
+===============================================================================
+TEMA 09 Autenticacion de Usuarios
+*********************************
+
+===============================================================================
+Video 052: 052 Registro
+
+===============================================================================
+Video 053: 053 Registro II
+
+===============================================================================
+Video 054: 054 Servicio para Autenticacion
+
+===============================================================================
+Video 055: 055 Validaciones
+
+===============================================================================
+Video 056: 056 Inicio de Sesion
+
+===============================================================================
+Video 057: 057 Control de Sesiones de Usuario
+
+===============================================================================
+Video 058: 058 Proteccion de Rutas
+
+===============================================================================
+Video 059: 059 Links entre Componentes
+
+===============================================================================
+===============================================================================
+TEMA 10 Modularizacion
+**********************
+
+===============================================================================
+Video 060: 060 Crear nuevo Modulo
+
+===============================================================================
+Video 061: 061 Componente en nuevo Modulo
+
+===============================================================================
+Video 062: 062 Codigo del Proyecto Actualizado
+
+===============================================================================
+===============================================================================
+TEMA 11 Tecnicas de Proyectos
+*****************************
+
+===============================================================================
+Video 063: 063 Uso Compartido de Objetos
+
+===============================================================================
+Video 064: 064 Spinners
+
+===============================================================================
+Video 065: 065 Autenticando___
+
+===============================================================================
+Video 066: 066 Buscador Reactivo
+
+===============================================================================
+Video 067: 067 Upload de Archivos
+
+===============================================================================
+Video 068: 068 Upload de Archivos II
+
+===============================================================================
+Video 069: 069 Upload de Archivos III
+
+===============================================================================
+Video 070: 070 Upload de Archivos IV
+
+===============================================================================
+Video 071: 071 Pantalla de Inicio
+
+===============================================================================
+===============================================================================
+TEMA 12 Despliegue a Produccion
+*******************************
+
+===============================================================================
+Video 072: 072 Build de la Aplicacion
+
+===============================================================================
+Video 073: 073 Despliegue en Amazon Web Services
+
+===============================================================================
+===============================================================================
+TEMA 13 Anexos
+**************
+
+===============================================================================
+Video 074: 074 eBook Angular.html
+
+===============================================================================
+Video 075: 075 Anexo I Instalacion de Node y NPM.html
+
+===============================================================================
+Video 076: 076 Anexo II Instalacion y Configuracion de Visual Studio Code.html
+
+===============================================================================
+Video 077: 077 Anexo III TypeScript.html
+
+===============================================================================
 
 
 
