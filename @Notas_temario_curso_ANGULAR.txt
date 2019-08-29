@@ -1015,26 +1015,135 @@ TEMA 09 Autenticacion de Usuarios
 ===============================================================================
 Video 052: 052 Registro
 
+La gestión de la autentificación de usuarios es una funcionalidad que crea cuentas, inicia sesión y registra los datos de usuario en una base de datos (en este caso en la nube).
+
+Creamos un componente de registro. Añadimos la ruta en el array de rutas de app.module.ts y en la barra de navegación. 
+
+En la plantilla HTML del componente de registro se crea un formulario para dar de alta a los usuarios. 
+
 ===============================================================================
 Video 053: 053 Registro II
+
+En el fichero typeScript del componente de registro usando la técnica Reactive se van a adquirir los datos desde el formulario de la plantilla: 
+1º: se importan FormControl, FormGroup, FormBuilder y Validators.
+2º: en la clase:
+1) Se crean las variables para el objeto del formulario de la clase FormGroup (ej: registroForm) y para el objeto que va a almacenar el correo electrónico y la contraseña de cada usuario (ej: userdata). 
+2) En el contructor se pasa por parámetro un objeto de tipo FormBuilder.
+3) En el método ngOnInit() se inicializa vacío el objeto formulario y se definen las validaciones. 
+4) Se crea el método de envío onSubmit().
+
+En la plantilla HTML del componente de registro: 
+1) Se idenfifica el formulario y se define el método de envío: 
+  <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
+2) Se idenfifica cada campo input:
+  formControlName="nombredelcampo"
 
 ===============================================================================
 Video 054: 054 Servicio para Autenticacion
 
+Hay que crear un Servicio para almacenar los datos de los usuarios en la base de datos Firebase.
+
+Firebase tiene una funcionalidad para gestionar autentificaciones. Desde google, logueados con una cuenta google, escribimos firebase.google.com y en la web entramos en "IR A LA CONSOLA" (https://console.firebase.google.com/). Una vez en el proyecto, entramos en Authentication (Menú lateral - Desarrollo - Authentication) y vamos a "Configura el método de inicio de sesión". Se pueden escoger entre múltiples opciones, pero escogemos "Correo electrónico/contraseña" (Habilitar + Guardar).
+
+Buscamos el apartado en la web de firebase, en nuestro proyecto, para "Añadir Firebase a tu aplicación" y reservamos el código HTML para usarlo con posterioridad. 
+
+¡¡¡NOTA IMPORTANTE: resumen distinto al video!!!: 
+1) Se instala el paquete:
+  npm install firebase @angular/fire --save
+2) Se importa en el servicio y en el componente raíz:
+  import { firebase } from '@firebase/app';
+  import '@firebase/auth';
+
+Se instalan los paquetes de Angular firebase y angularfire2 a través de la consola:
+  npm install firebase angularfire2 --save ==>¡¡¡NO SIRVE!!!
+
+Se crea el Servicio para gestionar los procesos de autentificación con la base de datos. Se importa y se declara en app.module.ts:
+1) Se importa toda la librería firebase en el Servicio (como arriba se indica, no como en el video).
+2) En la clase se crea un método que recibe como parámetro el objeto con los datos del usuario. En el método se usa código de la librería de firebase para enviar los datos de autentificación a la base de datos (método para el registro).
+
+En el componente raíz, app.component.ts, para conectarnos con la base de datos, se importa la librería firebase (como arriba se indica, no como en el video) y en la clase se implementa OnInit. En el método ngOnInit() se incluyen las claves de comunicación de la base de datos Firebase, que son el código de la web que habíamos dejado a la espera. En concreto, lo relacionado con apiKey y authdomain.
+
+En el fichero typeScript del componente de registro, hay que conectar con el Servicio:
+1) Se importa el servicio.
+2) En la clase, en el constructor se incluye como parámetro. Se importa el servicio de enrutado programático (Router y ActivatedRoute) y ese enrutado también se mete como parámetros del constructor. 
+3) En la clase, se añade al método onSubmit() que una vez están salvados los datos en el objeto de los datos de usuario, se envíe el objeto al servicio conectándose mediante el método para el registro. 
+También, se hace un enrutamiento para redirigir, tras el registro, a la página de inicio. 
+
 ===============================================================================
 Video 055: 055 Validaciones
+
+Las validaciones las creamos de una forma diferente. Usamos dos documentos json, uno para errores y otro para mensajes para esos errores, que se gestionan de forma dinámica a través de un método onValueChanged(). Como se quiere que este método recoja los cambios que se producen en el formulario a tiempo real, se utiliza dentro de ngOnInit().
 
 ===============================================================================
 Video 056: 056 Inicio de Sesion
 
+Se crea un nuevo componente para añadir un formulario de inicio de sesión para los usuarios. Añadimos la ruta en el array de rutas de app.module.ts y en la barra de navegación. 
+
+En la plantilla HTML del componente de registro se crea un formulario de inicio de sesión para los usuarios: 
+1) Se idenfifica el formulario y se define el método de envío: 
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+2) Se idenfifica cada campo input:
+  formControlName="nombredelcampo"
+
+En el fichero typeScript del componente de login usando la técnica Reactive se van a adquirir los datos desde el formulario de la plantilla: 
+1º: se importan FormControl, FormGroup, FormBuilder y Validators.
+2º: se importa el Servicio. 
+3º: se importan las clases de enrutado programático (Router y ActivatedRoute)
+4º: en la clase:
+1) Se crean las variables para el objeto del formulario de la clase FormGroup (ej: loginForm) y para el objeto que va a almacenar el correo electrónico y la contraseña de cada usuario (ej: userdata). 
+2) En el contructor se pasan por parámetros: un objeto de tipo FormBuilder, el Servicio de autentificación y las clases de enrutado programático.
+3) En el método ngOnInit() se inicializa vacío el objeto formulario y se definen las validaciones. 
+4) Se crea el método de envío onSubmit() para que una vez están salvados los datos en el objeto de los datos de usuario, se envíe el objeto al servicio conectándose mediante el método para el realizar el login. 
+
+En el fichero typeScript del Servicio (AutenticacionService) se añade lógica para recuperar los datos del servidor de Firebase y saber que se están introduciendo correctamente los datos de correo y password. Se importan las clases de enrutamiento. 
+
 ===============================================================================
 Video 057: 057 Control de Sesiones de Usuario
+
+Implementar un método para saber la situación de la sesión en cada momento, usando una clase de Firebase para Angular para saber si estamos conectados o no y en función de eso, establecer una lógica en la aplicación.
+
+En el fichero typeScript del Servicio, se crea un método para indicar si el usuario está autenticado y otro método para el cierre de sesión.
+
+En la plantilla HTML de la cabecera, se modifican los enlaces para que los que son de contenido solo se muestren si el usuario ha iniciado sesión (método relacionado con autentificación) y se añaden botones para inicio (redirección) y cierre de sesión (método de cierre).
+
+En el fichero typeScript del componente de la cabecera se importa el Servicio de autenticación y las clases para el enrutamiento, que se añaden al constructor como parámetros. Se añaden los métodos a los que llama su plantilla, que a su vez, llaman a métodos del Servicio. 
+
+En la página de inicio de sesión (componente de login), vamos a añadir un mensaje para que en caso de error el usuario sepa que está introduciendo mal los datos. Desde la plantilla HTML, se condiciona a la existencia (true) de un mensaje, que se define en el fichero typeScript en funión de que el usuario no esté logueado. 
 
 ===============================================================================
 Video 058: 058 Proteccion de Rutas
 
+Proteger las rutas para que sin el inicio de sesión no se pueda entrar. Para ello se utiliza una interfaz de Angular llamada CanActivate que vamos a implementar a través de un nuevo Servicio (GuardService). 
+
+Se crea el Servicio, se importa y se declara en app.module.ts. 
+
+En el fichero typeScript del servicio GuardService. :
+1º: se importa el Servicio de Autenticación y las clases CanActivate, ActivatedRouteSnapshot y RouterStateSnapshot de router de Angular.
+2º: en la clase:
+1) Se implementa CanActivate.
+2) En el constructor se añade por parámetro el servicio de Autenticación.
+3) Se crea un método que recibe un objeto ActivatedRouteSnapshot y un objeto RouterStateSnapshot y que devuelve usando el otro servicio si la sesión está iniciadao no en la aplicación. Este método se va a implementar en las rutas que se quieran proteger y que están en el array de rutas de app.module.ts:
+  const routes: Routes = [
+    { path: '', component: InicioComponent },
+    { path: 'proveedores', component: ProveedoresComponent,
+      canActivate: [GuardService] },
+    { path: 'registro', component: RegistroComponent },
+    { path: 'inises', component: InisesComponent },
+    { path: '**', component: InicioComponent }
+    ];
+
 ===============================================================================
 Video 059: 059 Links entre Componentes
+
+Links para simultanear entre inicio de sesión y registro.
+
+En la plantilla HTML del componente de inicio de sesión, fuera del formulario ponemos:
+  <p>Si no dispone de cuenta pulse <a routerLink='/registro'>aquí</a></p>
+
+En la plantilla HTML del componente de registro de usuarios, fuera del formulario ponemos:
+  <p>Si ya dispone de cuenta pulse <a routerLink='/inises'>aquí</a></p>
+
+Esto nos sirve para enlazar páginas a través de links.
 
 ===============================================================================
 ===============================================================================
