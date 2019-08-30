@@ -1193,29 +1193,130 @@ TEMA 11 Tecnicas de Proyectos
 ===============================================================================
 Video 063: 063 Uso Compartido de Objetos
 
+Inyectar, en los select, valores o datos que provengan de la base de datos.
+
+Ejemplo del proyecto: hasta el momento, desde el servicio de proveedores se tenía creado un array de objetos proveedores. Esos objetos eran los que se listaban en el listado de proveedores. En el formulario de añadir proveedor, no se tenía conexión con la base de datos. Ahora, vamos a cambiarlo, conectando con la base de datos y que esos datos se muestren en los select de los formularios que tengan que tener un campo proveedor (tomamos como ejemplo la forma de hacerlo en el componente para añadir presupuestos).
+
+Para que los datos de la base de datos se muestren en un campo select de un formulario de un componente:
+1º: en el fichero typeScript del componente del formulario: 
+1) Se importa el Servicio encargado de manejar esos datos entre la app y la BBDD y se pone como parámetro en el constructor.
+2) En la clase, se declara un array para almacenar los datos y se inicializa vacío.
+3) Para llamar al método de la base de datos de este servicio se utiliza el código del constructor del componente que se encarga del listado de proveedores. Conseguimos en el componente de presupuestos tener el listado de proveedores a través de su servicio. 
+2º: en la plantilla HTML del componente del formulario, se añade un select en lugar de un input. 
+
 ===============================================================================
 Video 064: 064 Spinners
+
+Los Spinners son un elemento para mejorar la experiencia de usuario que muestra una imagen mientras se carga la información en un elemento HTML.
+
+Ejemplo en el proyecto: página del listado de proveedores.
+
+En el fichero typeScript del componente, se añade un booleano inicializado a true, que pasará a false una vez se hayan cargado los datos del constructor.
+
+En la plantilla HTML del componente, se añade un div visible mientras el boolano sea verdadero que muestra el spinner. El div con la información a descargar sólo se verá cuando el booleano sea falso. 
 
 ===============================================================================
 Video 065: 065 Autenticando___
 
+Modificar el botón de autentificación de la aplicación para el inicio de sesión. 
+
+En el fichero typeScript del componente encargado de iniciar la sesión se añade una nueva propiedad booleana inicializada a false. Cuando se llame al método onSumbit() al inicio el booleano pasa a ser true y cuando finalice el proceso pasará de nuevo a ser false.
+
+En la plantilla HTML del componente, se duplica el botón de "Iniciar sesión" y uno se verá cuando el booleano sea false y el otro cuando el booleano sea true y en este caso se pondrá un texto para indicar al usuario que se está produciendo el proceso de autentificación.
+
 ===============================================================================
 Video 066: 066 Buscador Reactivo
+
+Un buscador dinámico es un elemento necesario en una aplicación profesional. 
+
+Ejemplo en el proyecto: página del listado de proveedores.
+
+1º: en la plantilla HTML del componente:
+1) Se añade un input tipo "search" para que sea el buscador y se le añade la propiedad para los formularios reactive [formControl]="campoBusqueda".
+
+2º: en el fichero typeScript del componente:
+1) Se importan las clases para el uso de formularios de tipo Reactive.
+2) Se declaran variables: la que recoge el dato del formulario de búsqueda, la que recoge el texto a buscar, una variable booleana para la carga del spinner de búsqueda inicializada a false, y dos variables booleanas relaionadas con los resultados inicializadas a false. 
+3) En el método ngOnInit:
+A) Se inicializa el objeto del formulario.
+B) Se suscribe a los cambios mediante ValueChanges.
+C) Se incluye código que dependiendo de los que haya en el formulario de búsqueda nos va enseñando una información u otra de forma dinámica. Para obtener datos, se llama a un nuevo método del Servicio de proveedores. 
+
+3º: en el fichero typeScript del servicio de proveedores se define el método de búsqueda que contiene una url descrita en la documentación de Firebase (se define la propiedad del objeto por la que se va a buscar).
+
+4º: en la web de Firebase, en la consola, en nuestro proyecto, en reglas de la base de datos, hay que configurar una nueva regla para que, en la colección o tabla en la que se está buscando, se cree un índice en la propiedad por la que se busca.
+{
+  "rules": {
+    ".read": "true",
+    ".write": "true", 
+    "proveedores": {
+      ".indexOn": ["nombre"]
+    }
+  }
+}
+
+5º: volvemos a modificar la plantilla HTML del componente para implementar las distintas propiedades que hemos ido creando.
 
 ===============================================================================
 Video 067: 067 Upload de Archivos
 
+Subir archivos en la aplicación para guardarlos en la base de datos.
+
+
+
+
+
+
+
+
 ===============================================================================
 Video 068: 068 Upload de Archivos II
+
+
+
+
+
+
+
+
+
 
 ===============================================================================
 Video 069: 069 Upload de Archivos III
 
+
+
+
+
+
+
+
+
+
 ===============================================================================
 Video 070: 070 Upload de Archivos IV
 
+
+
+
+
+
+
+
+
+
 ===============================================================================
 Video 071: 071 Pantalla de Inicio
+
+
+
+
+
+
+
+
+
+
 
 ===============================================================================
 ===============================================================================

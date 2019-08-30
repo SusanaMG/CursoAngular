@@ -1,24 +1,37 @@
 <!-- Ejemplo de inyección de objetos y sus propidades en los componentes -->
 <h3>Listado de Proveedores</h3>
 <a class="btn btn-primary float-md-right" routerLink="/addprovee">Añadir nuevo proveedor</a>
-<table class="table table-bordered table-striped" style="margin-top:40px ">
-  <thead>
-    <tr class="filters">
-      <th>Nombre</th>
-      <th>Correo electrónico</th>
-      <th>Teléfono</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let proveedor of proveedores">
-      <td>{{ proveedor.nombre }}</td>
-      <td><a href="mailto:{{ proveedor.email }}">{{ proveedor.email }}></a></td>
-      <td>{{ proveedor.telefono }}</td>
-    </tr>
-  </tbody>
-</table>
+<input type="search" placeholder="Teclee un proveedor..." class="form-control"
+      [formControl]="campoBusqueda">
+<div *ngIf="cargandoBusqueda" class="text-center" style="padding-top: 60px;">
+  <img src="../../../assets/spinner.gif" alt="cargando">
+</div>
+<div *ngIf="resultados">
+  <table class="table table-bordered table-striped" style="margin-top:40px ">
+    <thead>
+      <tr class="filters">
+        <th>Nombre</th>
+        <th>Correo electrónico</th>
+        <th>Teléfono</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let proveedor of proveedores">
+        <td>{{ proveedor.nombre }}</td>
+        <td><a href="mailto:{{ proveedor.email }}">{{ proveedor.email }}></a></td>
+        <td>{{ proveedor.telefono }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="noResultados">
+  <p>No existe ninguna coincidencia</p>
+</div>
 
 <!-- Ejemplo de creación de un servicio e inyección de dependencias -->
 <!--
 <h2>Éste el código que se inyecta: {{ mensaje }}</h2>
+-->
+<!-- Cuando no se tenía búsqueda dinámica, el div del spinner tenía la condición:
+  *ngIf="cargando" y el div de la tabla tenía la condición *ngIf="!cargando"
 -->
