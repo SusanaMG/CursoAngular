@@ -1153,11 +1153,37 @@ TEMA 10 Modularizacion
 ===============================================================================
 Video 060: 060 Crear nuevo Modulo
 
+Angular permite tener aplicaciones modularizables, exigiendo un mínimo de un módulo (app.module.ts). En aplicaciones grandes con muchas funcionaildades, se pueden agrupar éstas por módulos. 
+
+Vamos a crear un nuevo módulo adicional mediante la herramienta Angular CLI:
+  ng generate module nombrenuevomodulo
+
+Se genera el nuevo módulo (nombrenuevomodulo.module.ts) pero hay que incorporarlo al módulo raíz para que sus componentes estén disponibles para la aplicación. 
+
 ===============================================================================
 Video 061: 061 Componente en nuevo Modulo
 
+Vamos a crear un componente en el nuevo módulo desde la consola de Angular CLI:
+  ng g c nombremodulo/carpetadecomponentes/nombrecomponente --spec false
+
+En el árbol de directorios, el nuevo componente se crea dentro de la carpeta de su módulo. 
+
+Se genera el nuevo componente dentro de su módulo, pero hay que incorporar el módulo al módulo raíz para que sus componentes estén disponibles para la aplicación. Para ello, se importa y se añade en el array de "imports".
+
+Si se quiere acceder al componente de ese módulo se introduce en el arrays de rutas del módulo raíz y para ello, también hay que importar de manera manual el componente en el módulo raíz.
+  import { NombreModulo} from './carpeta/nombremodulo.module';
+  import { NombreComponente} from 			'./nombremodulo/carpetadecomponentes/nombrecomponente/nombrecomponente.component';
+
+Para usar las librerías o paquetes de Angular en los componentes, hay que importarlas en el módulo al que perteneen porque si no, no tienen acceso a ellas (se pueden copiar del módulo raíz). Se importan y se meten en el array de "imports".
+
+Si se va a emplear un sistema de rutas dentro de un nuevo módulo, hay que implementar un array de rutas.
+
+El @ngModule de nuevo módulo no contiene el array de "providers" (para poner los Servicios utilizados por el módulo) y hay que introducirlo a mano. 
+
 ===============================================================================
 Video 062: 062 Codigo del Proyecto Actualizado
+
+No hay contenido de video. Se añaden nuevos componentes para el nuevo módulo. 
 
 ===============================================================================
 ===============================================================================

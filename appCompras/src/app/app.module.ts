@@ -20,6 +20,9 @@ import { AutenticacionService} from './servicios/autenticacion.service';
 import { InisesComponent } from './autenticacion/inises/inises.component';
 import { GuardService } from './servicios/guard.service';
 
+import { FacturasModule } from './facturas/facturas.module';
+import { FacturasComponent } from './facturas/facturas/facturas/facturas.component';
+
 const routes: Routes = [
   { path: '', component: InicioComponent },
   { path: 'proveedores', component: ProveedoresComponent,
@@ -34,6 +37,7 @@ const routes: Routes = [
     canActivate: [GuardService] },
   { path: 'registro', component: RegistroComponent },
   { path: 'inises', component: InisesComponent },
+  { path: 'facturas', component: FacturasComponent },
   { path: '**', component: InicioComponent }
   ];
 
@@ -55,7 +59,8 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     FormsModule,
     ReactiveFormsModule,
-    HttpModule
+    HttpModule,
+    FacturasModule
   ],
   providers: [ProveedoresService,
               PresupuestosService,

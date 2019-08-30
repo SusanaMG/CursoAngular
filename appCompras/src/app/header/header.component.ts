@@ -11,7 +11,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private autenticacionService: AutenticacionService,
               private router: Router,
-              private activatedRouter: ActivatedRoute) { }
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
   }
@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onLogout() {
-    return this.autenticacionService.logout();
+    this.autenticacionService.logout();
     this.router.navigate(['/inicio']);
   }
 }
