@@ -6,8 +6,8 @@ import { Injectable } from '@angular/core';
 // import { AngularFirestoreModule } from '@angular/fire/firestore';
 // import { AngularFireStorageModule } from '@angular/fire/storage';
 // import { AngularFireAuthModule } from '@angular/fire/auth';
-import { firebase } from '@firebase/app';
-import '@firebase/auth';
+import { firebase } from '@firebase/app';       // Para autenticación
+import '@firebase/auth';                        // Para autenticación
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Injectable({

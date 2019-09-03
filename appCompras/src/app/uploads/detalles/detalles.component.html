@@ -1,0 +1,14 @@
+<div class="card" style="width: 20rem">
+  <div class="card-block">
+    <h4 class="card-tittle">Contrato</h4>
+    <p class="card-text">{{upload.name}}</p>
+    <!-- Evita el cross-site scripting (XSS) de Angular -->
+    <!--<a [href]="metodoUrl(upload)" class="btn btn-primary float-md-left">Visualizar</a>-->
+    <!-- Provoca el cross-site scripting (XSS) de Angular -->
+    <!--<a href="{{upload.url}}" class="btn btn-primary float-md-left">Visualizar</a>-->
+    <!-- Selecciono una de ambas opciones: -->
+    <a [href]="metodoUrl(upload)" class="btn btn-primary float-md-left">Visualizar</a>
+    <button class="btn btn-danger float-md-right"
+    (click)="deleteUpload(upload)">Eliminar</button>
+  </div>
+</div>

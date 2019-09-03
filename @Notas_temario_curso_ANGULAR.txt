@@ -1260,63 +1260,65 @@ C) Se incluye código que dependiendo de los que haya en el formulario de búsqued
 ===============================================================================
 Video 067: 067 Upload de Archivos
 
-Subir archivos en la aplicación para guardarlos en la base de datos.
+IMPORTANTE: los videos del curso están obsoletos respecto a las librerías de Firebase. Dejo aquí los pauntes pero el código no será funcional.
 
+Creación de componentes para poder subir archivos mediante Firebase.
 
+1º: hay que configurar el entorno de Firebase desde la web. Firebase tiene una funcionalidad para gestionar almacenamiento. Desde google, logueados con una cuenta google, escribimos firebase.google.com y en la web entramos en "IR A LA CONSOLA" (https://console.firebase.google.com/). Una vez en el proyecto, entramos en Storage (Menú lateral - Desarrollo - Storage) y vamos a modificar las reglas.
+  rules_version = '2';
+  service firebase.storage {
+    match /b/{bucket}/o {
+      match /{allPaths=**} {
+        allow read, write: if true;
+   } } }
 
+2º: en el proyecto creamos un nuevo directorio en app llamado "config" donde vamos a poner todos los parámetros de Firebase. Creamos un fichero firebase.config.ts y vamos a exportar la constante environment que va a ser igual a un documento json en el cual se van a exportar todos los parámetros de configuración del servicio de Firebase. Para obtenerlos, desde la web de Firebase, en Overview, en la opción de "Añadir Firebase a tu aplicación" se pueden encontrar (apiKey, authDomain, databaseURL, projectId, storageBucket, messagingSenderId y appId).
 
+3º: en el módulo raíz, app.module.ts importamos las librerías y paquetes AngularFireModule, AngularFireDatabaseModule, AngularFireAuthModule y la constante environment del fichero firebase.config.ts. Se meten en el array de imports. 
 
-
-
+4º: en el fichero del componente raíz, ponemos el resto de credenciales de firebase en ngOnInit().
 
 ===============================================================================
 Video 068: 068 Upload de Archivos II
 
+IMPORTANTE: los videos del curso están obsoletos respecto a las librerías de Firebase. Dejo aquí los pauntes pero el código no será funcional.
 
+Creación de un componente para subir los ficheros. En el componente creamos un archivo modelo para que sea una plantilla para crear objetos posteriormente (file.modal.ts) y en él, exportamos una clase con unas propiedades y un constructor. Cuando subamos el archivo a Firebase, por una parte se sube el archivo en sí mismo y por otra parte, se suben metadatos de ese archivo. 
 
+Creación de un Servicio para que se conecte con el servidor Firebase. Se crea y en el módulo raíz, se crea y se incluye en el array de providers.
+1) En el servicio se importa firebase, la clase modelo de Archivo y las clases AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable:
+  import * as firebase from 'firebase';
+  import { AngularFireDatabase, FirebaseListObservable,
+          FirebaseObjectObservable } from 'angularfire2/database';
+  import { Archivo } from '../uploads/file.modal';
+2) En la clase del Servicio se añade código (obsoleto). Se añade una ruta que es la que se va a tener el servicio de almacenamiento de Firebase. Se añade una variable que va a ser un array de objetos Archivo de tipo FirebaseListObservable. En el constructor se pasa como parámetro un objeto de AngularFireDatabase. Ahora se añaden métodos para subir los archivos. 
 
+NOTA: parapo seguir trabajando en la gestión de archivos o por lo menos, ir viendo los interfaces gráficos, voy a inicializar a mano el arrray de archivos.
 
-
-
-
-
+En el componente que habíamos creado se importa el servicio para la subida de ficheros (y se pasa como parámetro al constructor). Se IMPORTA La clase Archivo (el modelo) y se importa todo de 'lodash'. En la clase se crean variables y métodos para subir el archivo.
 
 ===============================================================================
 Video 069: 069 Upload de Archivos III
 
+IMPORTANTE: los videos del curso están obsoletos respecto a las librerías de Firebase. Dejo aquí los pauntes pero el código no será funcional.
 
-
-
-
-
-
-
-
+En la plantilla HTML del componente creado para subir archivos se implementa la estructura de etiquetas de HTML necesaria para la importación de archivos dependiente de los métodos y la variable booleana del fichero typeScript del componente. Se crean las clases CSS en el fichero CSS. 
 
 ===============================================================================
 Video 070: 070 Upload de Archivos IV
 
+IMPORTANTE: los videos del curso están obsoletos respecto a las librerías de Firebase. Dejo aquí los apuntes pero el código no será funcional.
 
+Creación de componentes para la gestión de archivos. 
 
+Creamos un componente para cargar los archivos. En fichero typeScript importamos (clases de Firebase, el servicio y la clase Archivo), creamos las variables y métodos.También se crean los métodos respectivos en el Servicio. En la plantilla HTML, creamos una etiqueta para introducir un componente embebido con los detalles del archivo. Desarrollamos el resto de la plantilla. Añadimos la ruta en el array de rutas del módulo raíz y lo ponemos también en la cabecera.
 
-
-
-
-
-
+Cremos un componente para los detalles de los archivos. En fichero typeScript importamos el decorador Input para recibir de otro componente sus propiedades y datos. También importamos la clase Archivo. En la plantilla HTML ponemos una tarjeta de bootstrap4 (con la clase "card") y un botón de eliminar cuyo código está en el fichero typeScript del componente y tira del un método para eliminar del Servicio. 
 
 ===============================================================================
 Video 071: 071 Pantalla de Inicio
 
-
-
-
-
-
-
-
-
-
+Vamos a dar estilo a la pantalla de bienvenida.
 
 ===============================================================================
 ===============================================================================
