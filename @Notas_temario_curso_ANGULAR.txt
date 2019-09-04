@@ -1328,8 +1328,31 @@ TEMA 12 Despliegue a Produccion
 ===============================================================================
 Video 072: 072 Build de la Aplicacion
 
+Vamos a crear los archivos para desplegar la aplicación a producción.
+
+Se realiza usando la herramienta de modo de comando de Angular CLI:
+ng build --prod
+
+Angular CLI se encarga de crear los paquetes, minificar el código, etc. Los paquetes resultantes van a tener un tamaño muy pequeño porque los módulos que no se utilicen no van a ser incorporados.
+
+Una vez terminado el proceso, aparece el directorio "dist" (de distribución) donde se encuentra la aplicación, con un conjunto de archivos javascript y el fichero index.html. Esta estructura de ficheros tiene replicarse cuando se coloque en un servidor para que funcione correctamente.
+
 ===============================================================================
 Video 073: 073 Despliegue en Amazon Web Services
+
+Ejemplo de despliegue en Amazon Web Services (https://aws.amazon.com/es/). Se necesita una cuenta en AWS.
+
+En AWS, en el menú vamos a "Services" - "Storage" - "S3". En la consola, elegimos cambiar a la consola tradicional y pulsamos "Create bucket" y le damos un nombre en minúsculas y se escoge una región. 
+
+El contenedor (bucket) tiene la opción "Static Website Hosting" que permite subir archivos y que funcione como un servidor web (hay que tener seleccionao el bucket). En SWH elegimos la opción "Enable website hosting" y ponemos el documento index.htm, tanto para ser el documento índice de entrada del servidor como para casos de errores de conexión. "Save" y obtenemos un endpoint que es la url para acceder. Hay que editar los permisos añadiendo una política de accesos (hay ejemplos de políticas de acceso) y escogemos "Granting Read-Only Permission to an Anonymous User" (copiamos, pegamos en la consola y cambiamos los datos por los de nuestra aplicación).
+
+No aparece ningún archivo y hay que ir subiéndolos "Actions" - "Upload" - "Add files" y elegimos todos los archivos del proyecto que están sueltos en el directorio "dist" y luego volvemos a añadir los que están dentro del directorio "assets" (cuando se suban los archivos se crea un directorio assets y se vuelven a meter). Tarda poco en subir porque son ficheros de pequeño tamaño. 
+
+En la pantalla principal de AWS, elegimos nuestro bucket para el proyecto y pulsamos el botón Properties para consultar las propiedades y la url. Si se pulsa la url se carga la aplicación que está conectada a la base de datos.
+
+Se puede añadir una url propia puesto que la que se tiene es de Amazon. Se usa para ello un servicio de redirección de Amazon. 
+
+Si la aplicación tiene cambios, se vuelve a generar el diretorio dist y se sube de nuevo al servidor. 
 
 ===============================================================================
 ===============================================================================
@@ -1337,20 +1360,9 @@ TEMA 13 Anexos
 **************
 
 ===============================================================================
-Video 074: 074 eBook Angular.html
-
+074 eBook Angular.html
+075 Anexo I Instalacion de Node y NPM.html
+076 Anexo II Instalacion y Configuracion de Visual Studio Code.html
+077 Anexo III TypeScript.html
 ===============================================================================
-Video 075: 075 Anexo I Instalacion de Node y NPM.html
-
-===============================================================================
-Video 076: 076 Anexo II Instalacion y Configuracion de Visual Studio Code.html
-
-===============================================================================
-Video 077: 077 Anexo III TypeScript.html
-
-===============================================================================
-
-
-
-
 
