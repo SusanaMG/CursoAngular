@@ -1,4 +1,4 @@
-# curso Angular
+# curso Angular - Curso finalizado
 Repositorio del curso de Angular
 
 ## NOTAS:
